@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZIAD MEDHAT - 3D Designer</title>
+  <link rel="stylesheet" href="bootstrap.css" />
+  <link rel="stylesheet" href="all.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+  <!-- Add GSAP Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <style>
+    body {
+      background-color: #F5F2EB;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      direction: ltr;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #d8c3a5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+    }
+
+    .loading-image {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 🌿 Navbar Style */
+    .navbar {
+      width: min(90%, 600px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0 5px 15px #978d5d;
+      position: fixed;
+      top: 20px;
+      z-index: 1000;
+      border-radius: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.3s ease;
+      padding: 10px 20px;
+      box-sizing: border-box;
+    }
+
+    /* Logo */
+    .navbar .logo img {
+      height: 45px;
+      width: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 30px;
+      opacity: 0;
+      flex-shrink: 0; /* منع تصغير اللوجو عند التكبير */
+    }
+
+    /* Links */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      position: relative;
+      gap: clamp(15px, 3vw, 35px);
+      padding: 0;
+      margin: 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #3E3B32;
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 500;
+      padding: 5px 0;
+      display: inline-block;
+      transition: color 1.3s ease;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    /* تأثير الخط المتحرك تحت الروابط */
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #978d5d, #CB997E);
+      border-radius: 0;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .nav-links a:hover::before {
+      width: 100%;
+      border-radius: 50%;
+    }
+
+    /* تأثير الخط للرابط النشط */
+    .nav-links li.active a::before {
+      width: 100%;
+      border-radius: 50%;
+      background: linear-gradient(90deg, #978d5d, #CB997E);
+    }
+
+    .nav-links li:hover a,
+    .nav-links li.active a {
+      color: #978d5d;
+    }
+
+    .contact {
+      background-color: rgb(0, 0, 0);
+      border-radius: 20px;
+      width: clamp(70px, 12vw, 90px);
+      text-align: center;
+      transition: 1.5s;
+      flex-shrink: 0;
+    }
+
+    .contact a {
+      color: rgb(255, 255, 255) !important;
+      position: relative;
+      font-size: clamp(12px, 1.8vw, 16px);
+    }
+
+    .contact:hover {
+      transform: scale(1.2);
+    }
+
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #3E3B32;
+      font-size: 24px;
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1001;
+    }
+
+    /* Sections */
+    .s1 {
+      margin-top: 150px;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .s1 h1 {
+      font-size: clamp(32px, 8vw, 90px);
+      color: #3E3B32;
+      text-align: left;
+      margin-left: clamp(20px, 5vw, 90px);
+      max-width: 1200px;
+      margin: 0 auto 50px;
+    }
+
+    .about {
+      margin-left: clamp(20px, 5vw, 90px);
+      margin-top: 50px;
+      display: flex;
+      gap: clamp(20px, 5vw, 50px);
+      max-width: 1200px;
+      margin: 50px auto 0;
+    }
+
+    .the-words {
+      color: #3E3B32;
+      flex: 1;
+    }
+
+    .the-words p {
+      font-size: clamp(16px, 3vw, 25px);
+      text-align: left;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .the-img img {
+      height: clamp(200px, 40vw, 350px);
+      border-radius: 20px;
+      box-shadow: 25px 20px 25px #978d5d;
+      opacity: 0;
+      transform: translateX(100px);
+    }
+
+    /* Background */
+    .hero-card {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 150px 20px 100px;
+      position: relative;
+    }
+
+    /* Card */
+    .card-container {
+      background: #d8c3a5;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      max-width: min(90%, 900px);
+      height: auto;
+      min-height: 310px;
+      padding: 40px 40px 40px clamp(20px, 25vw, 300px);
+      border-radius: 20px;
+      box-shadow: 25px 20px 25px #978d5d;
+      position: relative;
+      overflow: visible;
+      transition: transform .4s ease-out;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    /* تأثير Parallax للـ Card عند Hover */
+    .card-container:hover {
+      transform: perspective(2500px) rotateX(var(--rotateX)) rotateY(var(--rotateY)) scale3d(1.01, 1.01, 1.01);
+    }
+
+    /* Image */
+    .card-image {
+      position: absolute;
+      left: clamp(-40px, -5vw, -50px); /* استخدام clamp لجعل الموضع متجاوب */
+      top: 92%;
+      transform: translateY(-50%);
+      transition: transform 2.2s ease-out;
+    }
+
+    .card-image img {
+      width: clamp(200px, 30vw, 300px);
+      height: clamp(180px, 25vw, 260px);
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px #978d5d;
+      opacity: 0;
+      scale: 0.8;
+      transform: translateY(-50%) rotateY(90deg);
+      transition: all 0.3s ease-out;
+    }
+
+    /* Text */
+    .card-text {
+      flex: 1;
+      transition: transform 0.2s ease-out;
+    }
+
+    .card-text .date {
+      color: #5f5c50;
+      font-size: clamp(12px, 2vw, 14px);
+      display: block;
+      margin-bottom: 10px;
+      transition: all 0.2s ease-out;
+    }
+
+    .card-text h2 {
+      font-size: clamp(20px, 4vw, 28px);
+      color: #3e3b32;
+      transition: all 0.2s ease-out;
+    }
+
+    .card-text p {
+      color: #5f5c50;
+      line-height: 1.6;
+      transition: all 0.2s ease-out;
+      font-size: clamp(14px, 2vw, 16px);
+    }
+
+    .s2 {
+      margin-top: 50px;
+      text-align: center;
+      min-height: 100vh;
+      position: relative;
+      padding: 0 20px;
+    }
+
+    .s2 h1 {
+      font-size: clamp(32px, 8vw, 70px);
+      color: #3E3B32;
+      text-align: left;
+      margin-left: clamp(20px, 10vw, 220px);
+      max-width: 1200px;
+      margin: 0 auto 50px;
+    }
+
+    .s2 .about {
+      margin-left: clamp(20px, 10vw, 220px);
+      margin-top: 50px;
+      display: flex;
+      gap: clamp(20px, 10vw, 170px);
+      max-width: 1200px;
+      margin: 50px auto 0;
+    }
+
+    .s2 .the-img img {
+      height: clamp(200px, 40vw, 350px);
+      width: clamp(150px, 25vw, 250px);
+      border-radius: 20px;
+      box-shadow: 25px 20px 25px #978d5d;
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+
+    .s2 .the-words ul {
+      margin-top: 50px;
+      font-size: clamp(18px, 4vw, 32px);
+      margin-left: 0;
+      list-style: circle;
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    .s2 .the-words li {
+      margin: 15px;
+      margin-bottom: 15px;
+      color: #3E3B32;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    /* قسم المهارات */
+    .skills-section {
+      margin-bottom: 50px;
+      margin-top: 50px;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    .skills-categories {
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .skills-category {
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(151, 141, 93, 0.3);
+    }
+
+    .category-title {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      color: #3E3B32;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-card {
+      perspective: 1000px;
+    }
+
+    .skill-content {
+      height: 200px;
+      position: relative;
+      background: #d8d7d2;
+      padding: 30px 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px #978d5d;
+      transform: translateZ(0);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      overflow: hidden;
+    }
+
+    .skill-title {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: bold;
+      color: #3E3B32;
+      transition: transform 0.4s ease;
+    }
+
+    .skill-desc {
+      position: absolute;
+      left: 0;
+      bottom: -100%;
+      width: 100%;
+      padding: 20px;
+      background: #949d9c;
+      color: #fff;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      line-height: 1.4;
+      transition: bottom 0.4s ease;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    .skill-card:hover .skill-content {
+      transform: rotateX(15deg) translateY(-10px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .skill-card:hover .skill-title {
+      transform: translateY(-20px);
+    }
+
+    .skill-card:hover .skill-desc {
+      bottom: 0;
+    }
+
+    /* ========== السكشن الجديد للمشاريع - شكل الفيديو 2 ========== */
+    .projects-section {
+      padding: 80px 20px;
+      background-color: #F5F2EB;
+      position: relative;
+    }
+
+    .projects-title {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: #3E3B32;
+      text-align: center;
+      margin-bottom: 60px;
+      font-weight: bold;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .project-item {
+      background: #d8c3a5;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(151, 141, 93, 0.3);
+      transition: all 0.4s ease;
+      position: relative;
+      border: 1px solid rgba(151, 141, 93, 0.1);
+    }
+
+    .project-item:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 30px 60px rgba(151, 141, 93, 0.4);
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      background: #3E3B32;
+      overflow: hidden;
+      border-bottom: 3px solid #978d5d;
+    }
+
+    .project-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.4s ease;
+      filter: brightness(0.9);
+    }
+
+    .project-item:hover .project-video {
+      transform: scale(1.08);
+      filter: brightness(1);
+    }
+
+    .play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(151, 141, 93, 0.8), rgba(203, 153, 126, 0.6));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .play-overlay i {
+      font-size: 4rem;
+      color: white;
+      transform: scale(0.8);
+      transition: all 0.3s ease;
+      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .video-container:hover .play-overlay {
+      opacity: 1;
+    }
+
+    .video-container:hover .play-overlay i {
+      transform: scale(1.1);
+    }
+
+    .project-info {
+      padding: 30px;
+    }
+
+    .project-info h3 {
+      font-size: 1.6rem;
+      color: #3E3B32;
+      margin-bottom: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .project-info p {
+      color: #5f5c50;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .tech-tag {
+      background: linear-gradient(135deg, #978d5d, #CB997E);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(151, 141, 93, 0.3);
+    }
+
+    .tech-tag:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(151, 141, 93, 0.4);
+    }
+
+    /* Modal للفيديو - معدل */
+    .video-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .video-modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
+      width: 90%;
+      max-width: 1200px;
+      background: #1a1a1a;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      border: 2px solid #978d5d;
+      /* التعديل الجديد للطول */
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-video-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modal-video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      /* التعديل الجديد لمنع القص */
+      object-fit: contain;
+      /* إظهار كل عناصر التحكم */
+      controls: controls;
+    }
+
+    /* تأكد من ظهور جميع عناصر التحكم */
+    .modal-video::-webkit-media-controls-panel {
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    }
+
+    .modal-video::-webkit-media-controls-play-button,
+    .modal-video::-webkit-media-controls-volume-slider,
+    .modal-video::-webkit-media-controls-timeline,
+    .modal-video::-webkit-media-controls-current-time-display,
+    .modal-video::-webkit-media-controls-time-remaining-display,
+    .modal-video::-webkit-media-controls-fullscreen-button {
+      display: inline-block !important;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(151, 141, 93, 0.9);
+      border: none;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      z-index: 2001;
+    }
+
+    .close-modal:hover {
+      background: rgba(203, 153, 126, 0.9);
+      transform: scale(1.1) rotate(90deg);
+    }
+
+    /* Contact Section */
+    /* Contact Section - التعديلات الجديدة */
+.s4 {
+  background-color: #E7E1D7;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-container h1 {
+  font-size: clamp(2rem, 6vw, 3rem);
+  color: #3E3B32;
+  margin-bottom: 60px;
+  font-weight: bold;
+}
+
+.contact-layout {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.contact-main {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.contact-method {
+  margin-top: 25px;
+  background: #d8c3a5;
+  border-radius: 15px;
+  padding: 30px;
+  transition: all 1.3s ease;
+  box-shadow: 0 5px 15px rgba(151, 141, 93, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: clamp(280px, 30vw, 350px);
+}
+
+.contact-method:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px #978d5d;
+}
+
+.contact-method i {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: #3E3B32;
+  width: 60px;
+}
+
+.contact-method div {
+  text-align: left;
+  flex: 1;
+}
+
+.contact-method h3 {
+  color: #3E3B32;
+  margin: 0 0 8px 0;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+}
+
+.contact-method p {
+  color: #3E3B32;
+  margin: 0;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 500;
+}
+
+.contact-sidebar {
+  background: #d8c3a5;
+  border-radius: 15px;
+  padding: 30px;
+  transition: all 1.3s ease;
+  box-shadow: 0 5px 15px rgba(151, 141, 93, 0.2);
+  width: clamp(280px, 30vw, 350px);
+}
+
+.contact-sidebar:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px #978d5d;
+}
+
+.contact-sidebar h3 {
+  color: #3E3B32;
+  margin-bottom: 25px;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+}
+
+/* التعديل الجديد لجعل الإنستجرام في المنتصف */
+.social-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.social-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.social-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  color: #6B705C;
+  width: 120px;
+}
+
+.social-item:hover {
+  background: rgba(255, 255, 255, 0.5);
+  color: #CB997E;
+  transform: translateY(-3px);
+}
+
+.social-item i {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 8px;
+}
+
+.social-item span {
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  font-weight: 500;
+}
+
+/* Media Queries للتواصل */
+@media (max-width: 768px) {
+  .contact-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .contact-method,
+  .contact-sidebar {
+    width: 100%;
+    max-width: 350px;
+  }
+  
+  .social-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .social-item {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+    .social-item span {
+      font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+      font-weight: 500;
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .project-item {
+        margin: 0 10px;
+      }
+      
+      .video-container {
+        height: 250px;
+      }
+      
+      .project-info {
+        padding: 25px;
+      }
+      
+      .project-info h3 {
+        font-size: 1.4rem;
+      }
+      
+      .modal-content {
+        width: 95%;
+        height: 70vh;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .projects-title {
+        font-size: clamp(1.5rem, 8vw, 2.5rem);
+        margin-bottom: 40px;
+      }
+      
+      .video-container {
+        height: 200px;
+      }
+      
+      .project-info {
+        padding: 20px;
+      }
+      
+      .play-overlay i {
+        font-size: 3rem;
+      }
+      
+      .tech-tag {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+      
+      .modal-content {
+        height: 60vh;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .modal-content {
+        height: 50vh;
+      }
+    }
+    /* Media Queries للتصميم المتجاوب - بنفس أسلوب الـ Skills */
+    @media (max-width: 1200px) {
+      .navbar {
+        width: min(90%, 600px);
+      }
+      
+      .nav-links {
+        gap: clamp(15px, 2.5vw, 25px);
+      }
+      
+      .s1 h1 {
+        font-size: clamp(32px, 7vw, 70px);
+        margin-left: clamp(20px, 4vw, 50px);
+      }
+      
+      .about {
+        margin-left: clamp(20px, 4vw, 50px);
+      }
+      
+      .s2 h1 {
+        font-size: clamp(32px, 6vw, 60px);
+        margin-right: clamp(20px, 8vw, 150px);
+      }
+      
+      .s2 .about {
+        margin-left: clamp(20px, 8vw, 150px);
+        gap: clamp(20px, 8vw, 100px);
+      }
+      
+      .project-card {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .navbar {
+        width: min(90%, 600px);
+      }
+      
+      .nav-links {
+        gap: clamp(15px, 2vw, 20px);
+      }
+      
+      .nav-links a {
+        font-size: clamp(14px, 1.8vw, 16px);
+      }
+      
+      .s1 h1 {
+        font-size: clamp(28px, 6vw, 60px);
+        margin-left: clamp(15px, 3vw, 30px);
+      }
+      
+      .about {
+        margin-left: clamp(15px, 3vw, 30px);
+        gap: clamp(15px, 3vw, 30px);
+      }
+      
+      .the-words p {
+        font-size: clamp(16px, 2.5vw, 20px);
+      }
+      
+      .s2 h1 {
+        font-size: clamp(28px, 5vw, 50px);
+        margin-right: clamp(15px, 6vw, 100px);
+      }
+      
+      .s2 .about {
+        margin-left: clamp(15px, 6vw, 100px);
+        gap: clamp(15px, 6vw, 70px);
+      }
+      
+      .s2 .the-words ul {
+        font-size: clamp(18px, 3vw, 24px);
+      }
+      
+      .project-card {
+        width: 100%;
+      }
+      
+      .card-container {
+        padding: 40px 40px 40px clamp(20px, 25vw, 280px);
+      }
+      
+      .card-image {
+        left: clamp(-30px, -4vw, -40px);
+      }
+      
+      .card-image img {
+        width: clamp(180px, 25vw, 280px);
+        height: clamp(160px, 22vw, 240px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        width: min(95%, 500px);
+        padding: 10px 15px;
+        justify-content: space-between;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #000000;
+        flex-direction: column;
+        padding: 20px;
+        border-radius: 0 0 40px 40px;
+        box-shadow: 0 5px 15px #978d5d;
+        gap: 15px;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .logo {
+        margin-right: 0;
+      }
+      
+      .s1 h1 {
+        font-size: clamp(24px, 5vw, 40px);
+        margin-left: 0;
+        text-align: center;
+      }
+      
+      .about {
+        flex-direction: column;
+        margin-left: 0;
+        margin-right: 0;
+        gap: 30px;
+        padding: 0 20px;
+      }
+      
+      .the-words p {
+        font-size: clamp(14px, 2.5vw, 18px);
+        text-align: center;
+      }
+      
+      .the-img img {
+        height: clamp(180px, 35vw, 250px);
+      }
+      
+      .s2 h1 {
+        font-size: clamp(24px, 5vw, 40px);
+        margin-right: 0;
+        text-align: center;
+      }
+      
+      .s2 .about {
+        flex-direction: column-reverse;
+        margin-left: 0;
+        margin-right: 0;
+        gap: 30px;
+        padding: 0 20px;
+      }
+      
+      .s2 .the-words ul {
+        font-size: clamp(16px, 3vw, 20px);
+        margin-top: 30px;
+        text-align: center;
+        padding-left: 0;
+      }
+      
+      .s2 .the-words li {
+        text-align: center;
+      }
+      
+      .card-container {
+        flex-direction: column;
+        height: auto;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      
+      .card-image {
+        position: relative;
+        left: 0;
+        top: 0;
+        transform: none;
+        margin-bottom: 20px;
+      }
+      
+      .card-image img {
+        width: clamp(150px, 30vw, 250px);
+        height: clamp(140px, 25vw, 220px);
+      }
+      
+      .projects-container {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+      
+      .project-card {
+        width: 100%;
+        max-width: 400px;
+      }
+      
+      .contact-method,
+      .contact-sidebar {
+        width: 100%;
+        max-width: 350px;
+      }
+      
+      .contact-layout {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .s1 h1 {
+        font-size: clamp(20px, 6vw, 32px);
+      }
+      
+      .s2 h1 {
+        font-size: clamp(20px, 6vw, 32px);
+      }
+      
+      .the-img img,
+      .s2 .the-img img {
+        height: clamp(150px, 35vw, 200px);
+        width: auto;
+      }
+      
+      .card-image img {
+        width: clamp(120px, 35vw, 200px);
+        height: clamp(110px, 30vw, 180px);
+      }
+      
+      .contact-container h1 {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+      }
+      
+      .social-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .the-words p {
+        font-size: clamp(12px, 2.5vw, 16px);
+      }
+      
+      .s2 .the-words ul {
+        font-size: clamp(14px, 3vw, 18px);
+      }
+      
+      .skills-category {
+        padding: 20px;
+      }
+      
+      .skill-content {
+        height: 180px;
+        padding: 20px 15px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .s1 h1 {
+        font-size: clamp(18px, 7vw, 28px);
+      }
+      
+      .s2 h1 {
+        font-size: clamp(18px, 7vw, 28px);
+      }
+      
+      .the-words p {
+        font-size: clamp(10px, 3vw, 14px);
+      }
+      
+      .s2 .the-words ul {
+        font-size: clamp(12px, 4vw, 16px);
+      }
+      
+      .contact-method,
+      .contact-sidebar {
+        width: 100%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <img src="WhatsApp Image 2025-11-11 at 3.07.42 PM.jpeg" alt="Loading" class="loading-image" id="loadingImage">
+  </div>
+
+  <main>
+    <!-- ✅ Navbar -->
+    <nav class="navbar" id="mainNavbar">
+      <div class="logo">
+        <img src="WhatsApp Image 2025-11-11 at 3.07.42 PM.jpeg" alt="logo" id="navLogo">
+      </div>
+
+      <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li class="active"><a href="#about">About</a></li>
+        <li><a href="#Services">Services</a></li>
+        <li><a href="#skill">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li class="contact"><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <!-- Hero Section -->
+  <section class="hero-card">
+    <div class="card-container" id="interactiveCard">
+      <div class="card-image">
+        <img src="seco.jpeg" alt="My Photo" id="hero-image">
+      </div>
+      <div class="card-text">
+        <h2>ZIAD MEDHAT</h2>
+        <p>3D Designer passionate about creativity and development, with experience in creating realistic and
+          professional product and advertising designs.</p>
+        <span class="date">Sharkia, Egypt</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- باقي السكشنز -->
+  <section class="s1" id="about">
+    <h1>about me</h1>
+    <div class="about">
+      <div class="the-words">
+        <p>
+          I'm a passionate 3D Designer with over 8 months of experience in creating realistic and professional product
+          and advertising designs. <br>
+          I love transforming ideas into visually stunning 3D models that not only look great but also effectively
+          communicate the intended message. <br>
+          My focus is always on achieving the highest levels of quality and distinction in every project I undertake.
+          <br>
+          I continuously learn through courses and practice to enhance my skills and stay updated with the latest trends
+          in 3D design. <br>
+          Whether it's product visualization, advertising materials, or creative concepts, I enjoy bringing imagination
+          to life through detailed and professional 3D artwork. <br>
+          My goal is to deliver designs that exceed expectations and leave a lasting impression. <br>
+        </p>
+      </div>
+      <div class="the-img">
+        <img src="WhatsApp Image 2025-11-11 at 5.11.02 PM.jpeg" alt="">
+      </div>
+    </div>
+  </section>
+
+  <section class="s2" id="Services">
+    <h1>what I can do for you</h1>
+    <div class="about">
+      <div class="the-img">
+        <img src="kjfdsdjks.jpeg" alt="">
+      </div>
+      <div class="the-words">
+        <p>
+        <ul>
+          <li>Professional and realistic 3D product designs</li>
+          <li>Creative advertising and marketing materials</li>
+          <li>High-quality 3D visualizations for presentations</li>
+          <li>Custom 3D models for various applications</li>
+          <li>Product prototyping and concept development</li>
+          <li>Attention to detail and professional finish</li>
+        </ul>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم المهارات -->
+  <section class="skills-section" id="skill">
+    <h2 class="section-title">My Skills</h2>
+    <div class="skills-categories">
+      <!-- Technical Skills -->
+      <div class="skills-category">
+        <h3 class="category-title">Technical Skills</h3>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Blender</h3>
+              <p class="skill-desc">Creating realistic and professional 3D designs using Blender with expertise in
+                modeling, texturing, and rendering.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">3D Modeling</h3>
+              <p class="skill-desc">Designing detailed 3D models for products, advertisements, and various applications
+                with precision and creativity.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Texturing & Materials</h3>
+              <p class="skill-desc">Applying realistic textures and materials to 3D models to enhance visual appeal and
+                authenticity.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Lighting & Rendering</h3>
+              <p class="skill-desc">Setting up optimal lighting and rendering settings to create professional and
+                visually striking 3D scenes.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Product Visualization</h3>
+              <p class="skill-desc">Creating realistic product visualizations that effectively showcase design features
+                and functionality.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Animation Basics</h3>
+              <p class="skill-desc">Implementing basic animations to bring 3D models to life and demonstrate product
+                functionality.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soft Skills -->
+      <div class="skills-category">
+        <h3 class="category-title">Soft Skills</h3>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Creativity</h3>
+              <p class="skill-desc">Developing innovative and original design concepts that effectively communicate
+                ideas and capture attention.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Good Communication</h3>
+              <p class="skill-desc">Effectively communicating with clients and team members to understand requirements
+                and deliver satisfactory results.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Teamwork</h3>
+              <p class="skill-desc">Collaborating effectively with team members to achieve project goals and deliver
+                high-quality results.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Attention to Detail</h3>
+              <p class="skill-desc">Paying close attention to every aspect of the design process to ensure precision and
+                quality in the final output.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Continuous Learning</h3>
+              <p class="skill-desc">Continuously improving skills through courses and practice to stay updated with the
+                latest design trends and techniques.</p>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-content">
+              <h3 class="skill-title">Problem Solving</h3>
+              <p class="skill-desc">Finding creative solutions to design challenges and technical issues that arise
+                during the 3D modeling process.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section الجديدة -->
+  <section id="projects" class="projects-section">
+    <h2 class="projects-title">My Projects</h2>
+    
+    <div class="projects-grid">
+      <!-- Project 1 -->
+      <div class="project-item">
+        <div class="video-container">
+          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+1">
+            <source src="1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="play-overlay" data-video="1.mp4">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="project-info">
+          <h3>3D Product Visualization – Advertising Concept</h3>
+          <p> A realistic product design and lighting showcase created using Blender. Focuses on composition, materials, and cinematic rendering for advertising purposes. Created by: Ziad Medhat</p>
+          <div class="project-tech">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">3D Modeling</span>
+            <span class="tech-tag">Texturing</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-item">
+        <div class="video-container">
+          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+2">
+            <source src="2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="play-overlay" data-video="2.mp4">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="project-info">
+          <h3>First Stage of Advertising Animation – Lighting & Camera Movement</h3>
+          <p>A dynamic 3D scene showcasing Ad Animation in its first stage: combining lighting setup and camera movement for impactful storytelling. Created by: Ziad Medhat</p>
+          <div class="project-tech">
+            <span class="tech-tag">After Effects</span>
+            <span class="tech-tag">Animation</span>
+            <span class="tech-tag">Motion Graphics</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-item">
+        <div class="video-container">
+          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+3">
+            <source src="3.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="play-overlay" data-video="3.mp4">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="project-info">
+          <h3>Essential Jewellery Ring Animation – Zid Perfume – Zohour Yeltaqy Bilsassa Mina Al Fakhamah</h3>
+          <p>A creative 3D ring animation showcasing jewellery design for the “Zid Perfume” brand. Focuses on elegant movement, lighting, and product styling for a premium feel. Created by: Ziad Medhat</p>
+          <div class="project-tech">
+            <span class="tech-tag">Product Design</span>
+            <span class="tech-tag">3D Modeling</span>
+            <span class="tech-tag">Material Design</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-item">
+        <div class="video-container">
+          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+4">
+            <source src="4.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="play-overlay" data-video="4.mp4">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="project-info">
+          <h3>Quick Branding Animation Reel</h3>
+          <p>An engaging animation showcasing branding concepts and creative motion for digital platforms. Created by: Ziad Medhat</p>
+          <div class="project-tech">
+            <span class="tech-tag">Concept Art</span>
+            <span class="tech-tag">Experimental</span>
+            <span class="tech-tag">Innovation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="project-item">
+        <div class="video-container">
+          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+5">
+            <source src="5.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="play-overlay" data-video="5.mp4">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="project-info">
+          <h3>Branding Animation – Modern Product Showcase</h3>
+         <p>A stylish 3D branding animation designed to highlight a modern product concept with smooth transitions, realistic lighting, and cinematic motion.
+Created by: Ziad Medhat</p>
+          <div class="project-tech">
+            <span class="tech-tag">Advanced 3D</span>
+            <span class="tech-tag">Lighting</span>
+            <span class="tech-tag">Rendering</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 6 -->
+      <div class="project-item">
+        <div class="video-container">
+          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+6">
+            <source src="6.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="play-overlay" data-video="6.mp4">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="project-info">
+          <h3>3D Course Promo – Facebook Lead Generation Experience</h3>
+          <p>A dynamic animation showcasing power of 3D design in Facebook lead campaigns. Created by: Ziad Medhat</p>
+          <div class="project-tech">
+            <span class="tech-tag">Editing</span>
+            <span class="tech-tag">Design</span>
+            <span class="tech-tag">Precision</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal للفيديو - معدل -->
+  <div class="video-modal" id="videoModal">
+    <div class="modal-content">
+      <div class="modal-video-wrapper">
+        <video class="modal-video" controls id="modalVideo" controlsList="nodownload">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <button class="close-modal" id="closeModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <section class="s4" id="contact">
+  <div class="contact-container">
+    <h1>Let's Connect</h1>
+    <div class="contact-layout">
+      <div class="contact-main">
+        <div class="contact-method">
+          <i class="fa-solid fa-phone"></i>
+          <div>
+            <h3>Phone</h3>
+            <p>+20 1272868378</p>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <i class="fa-solid fa-location-dot"></i>
+          <div>
+            <h3>My Location</h3>
+            <p>Sharkia, Egypt</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-sidebar">
+        <h3>Follow Me</h3>
+        <div class="social-grid">
+          <!-- الصف الأول: الفيسبوك والجيميل -->
+          <div class="social-row">
+            <a href="mailto:zmedhat847@gmail.com" class="social-item">
+              <i class="fa-solid fa-envelope"></i>
+              <span>Email</span>
+            </a>
+            <a href="https://www.facebook.com/ALZOZmodeling" target="_blank" class="social-item">
+              <i class="fa-brands fa-facebook-f"></i>
+              <span>Facebook</span>
+            </a>
+          </div>
+          
+          <!-- الصف الثاني: الإنستجرام في المنتصف -->
+          <div class="social-row">
+            <a href="https://www.instagram.com/ziadmedhat14?igsh=MWk3NXYzMzA3bnBqcA==" target="_blank" class="social-item" id="insta">
+              <i class="fa-brands fa-instagram"></i>
+              <span>Instagram</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  <script src="bootstrap.bundle.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // التحكم في شاشة التحميل
+      const loadingScreen = document.getElementById('loadingScreen');
+      const loadingImage = document.getElementById('loadingImage');
+      const navLogo = document.getElementById('navLogo');
+      const navbar = document.getElementById('mainNavbar');
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinks = document.getElementById('navLinks');
+
+      // إضافة وظيفة القائمة المتنقلة
+      menuToggle.addEventListener('click', function () {
+        navLinks.classList.toggle('active');
+      });
+
+      // إغلاق القائمة عند النقر على رابط
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function () {
+          navLinks.classList.remove('active');
+        });
+      });
+
+      // حساب موقع النافبار الدقيق
+      const navbarRect = navbar.getBoundingClientRect();
+      const logoRect = navLogo.getBoundingClientRect();
+
+      const targetX = logoRect.left + (logoRect.width / 2) - (window.innerWidth / 2);
+      const targetY = logoRect.top + (logoRect.height / 2) - (window.innerHeight / 2);
+
+      setTimeout(() => {
+        const moveTimeline = gsap.timeline();
+        moveTimeline
+          .to(loadingImage, {
+            scale: 1.3,
+            duration: 0.8,
+            ease: "power2.out"
+          })
+          .to(loadingImage, {
+            scale: 0.1,
+            x: targetX,
+            y: targetY,
+            duration: 1.8,
+            ease: "power2.inOut",
+            onUpdate: function () {
+              const progress = this.progress();
+              loadingImage.style.opacity = 1.5 - (progress * 0.8);
+            },
+            onComplete: function () {
+              loadingScreen.style.display = 'none';
+              navLogo.style.opacity = '1';
+              startHeroAnimation();
+              initCardParallax();
+              initNavbarScroll();
+              initNavbarClick();
+              initVideoModal();
+            }
+          });
+      }, 1000);
+
+      // ✅ دالة لجعل النافبار يثبت عند التمرير
+      function initNavbarScroll() {
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+          const currentScrollY = window.scrollY;
+
+          if (currentScrollY > 100) {
+            navbar.style.top = '10px';
+            navbar.style.boxShadow = '0 5px 15px rgba(151, 141, 93, 0.3)';
+          } else {
+            navbar.style.top = '20px';
+            navbar.style.boxShadow = '0 5px 15px #978d5d';
+          }
+
+          lastScrollY = currentScrollY;
+        });
+      }
+
+      // ✅ دالة لتحديد العنصر النشط في النافبار عند النقر
+      function initNavbarClick() {
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const navItems = document.querySelectorAll('.nav-links li');
+
+        navLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // إزالة الكلاس النشط من كل العناصر
+            navItems.forEach(item => item.classList.remove('active'));
+
+            // إضافة الكلاس النشط للعنصر المختار
+            this.parentElement.classList.add('active');
+
+            // الانتقال إلى القسم المطلوب
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+              const offsetTop = targetSection.offsetTop - 80; // تعويض للنافبار الفيكسد
+              window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+              });
+            }
+          });
+        });
+
+        // تحديث العنصر النشط عند التمرير
+        window.addEventListener('scroll', () => {
+          const sections = document.querySelectorAll('section');
+          let currentSection = '';
+
+          sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.clientHeight;
+            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+              currentSection = section.getAttribute('id');
+            }
+          });
+
+          navItems.forEach(item => {
+            item.classList.remove('active');
+            const link = item.querySelector('a');
+            if (link && link.getAttribute('href') === `#${currentSection}`) {
+              item.classList.add('active');
+            }
+          });
+        });
+      }
+
+      function startHeroAnimation() {
+        const heroImage = document.getElementById('hero-image');
+        const heroTimeline = gsap.timeline();
+        heroTimeline
+          .fromTo(heroImage,
+            { opacity: 0, scale: 0.3, rotationY: 180, rotationX: 30 },
+            { opacity: 1, scale: 1.1, rotationY: 0, rotationX: 0, duration: 0.8, ease: "back.out(1.5)" }
+          )
+          .to(heroImage, { scale: 0.95, rotationY: 10, duration: 0.2, ease: "power2.inOut" })
+          .to(heroImage, { scale: 1.05, rotationY: -5, duration: 0.15, ease: "power2.inOut" })
+          .to(heroImage, { scale: 1, rotationY: 0, duration: 0.3, ease: "power2.out" });
+      }
+
+      // تأثير Parallax للـ Card عند Hover فقط
+      function initCardParallax() {
+        const card = document.getElementById('interactiveCard');
+
+        card.addEventListener('mousemove', (e) => {
+          const cardRect = card.getBoundingClientRect();
+          const mouseX = e.clientX - cardRect.left;
+          const mouseY = e.clientY - cardRect.top;
+
+          const cardCenterX = cardRect.width / 2;
+          const cardCenterY = cardRect.height / 2;
+
+          const rotateX = (mouseY - cardCenterY) / 20;
+          const rotateY = (cardCenterX - mouseX) / 20;
+
+          card.style.setProperty('--rotateX', `${rotateX}deg`);
+          card.style.setProperty('--rotateY', `${rotateY}deg`);
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.setProperty('--rotateX', '0deg');
+          card.style.setProperty('--rotateY', '0deg');
+        });
+      }
+
+      // دالة للتحكم في Modal الفيديو - معدلة
+      function initVideoModal() {
+        const videoModal = document.getElementById('videoModal');
+        const modalVideo = document.getElementById('modalVideo');
+        const closeModal = document.getElementById('closeModal');
+        const playOverlays = document.querySelectorAll('.play-overlay');
+
+        playOverlays.forEach(overlay => {
+          overlay.addEventListener('click', function() {
+            const videoSrc = this.getAttribute('data-video');
+            modalVideo.src = videoSrc;
+            videoModal.classList.add('active');
+            
+            // تأكد من ظهور عناصر التحكم
+            modalVideo.controls = true;
+            modalVideo.load();
+            
+            // حاول تشغيل الفيديو
+            modalVideo.play().then(() => {
+              console.log('Video started playing');
+            }).catch(error => {
+              console.log('Auto-play prevented, showing controls:', error);
+            });
+          });
+        });
+
+        closeModal.addEventListener('click', function() {
+          videoModal.classList.remove('active');
+          modalVideo.pause();
+          modalVideo.currentTime = 0;
+          modalVideo.src = '';
+        });
+
+        videoModal.addEventListener('click', function(e) {
+          if (e.target === videoModal) {
+            videoModal.classList.remove('active');
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            modalVideo.src = '';
+          }
+        });
+
+        // إغلاق Modal بالزر Escape
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+            videoModal.classList.remove('active');
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            modalVideo.src = '';
+          }
+        });
+      }
+
+      gsap.fromTo('.s1 .the-img img',
+        { opacity: 0, x: 100 },
+        {
+          opacity: 1, x: 0, duration: 1, ease: "power2.out",
+          scrollTrigger: {
+            trigger: '.s1',
+            start: 'top 70%',
+            end: 'bottom 30%',
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+
+      gsap.fromTo('.s2 .the-img img',
+        { opacity: 0, x: -100 },
+        {
+          opacity: 1, x: 0, duration: 1, ease: "power2.out",
+          scrollTrigger: {
+            trigger: '.s2',
+            start: 'top 70%',
+            end: 'bottom 30%',
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+
+      // إضافة انيميشن للمشاريع
+      gsap.fromTo('.project-item',
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0, duration: 0.8, ease: "power2.out",
+          scrollTrigger: {
+            trigger: '.projects-section',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: "play none none reverse"
+          },
+          stagger: 0.2
+        }
+      );
+
+      ScrollTrigger.refresh();
+    });
+
+    window.onload = function () {
+      window.scrollTo(0, 0);
+    };
+
+    if (history.scrollRestoration) {
+      history.scrollRestoration = 'manual';
+    }
+  </script>
+</body>
+</html>
