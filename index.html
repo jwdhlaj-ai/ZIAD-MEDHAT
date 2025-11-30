@@ -18,13 +18,39 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
   <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #1a1a2e;
+      --bg-card: rgba(20, 20, 30, 0.8);
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --accent-primary: #0066ff;
+      --accent-secondary: #00ccff;
+      --shadow-color: rgba(0, 102, 255, 0.3);
+      --border-color: rgba(0, 102, 255, 0.2);
+    }
+
+    .light-mode {
+      --bg-primary: #f5f5f5;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --accent-primary: #0066ff;
+      --accent-secondary: #0099ff;
+      --shadow-color: rgba(0, 102, 255, 0.15);
+      --border-color: rgba(0, 102, 255, 0.1);
+    }
+
     body {
-      background-color: #F5F2EB;
+      background-color: var(--bg-primary);
       overflow-x: hidden;
       margin: 0;
       padding: 0;
       position: relative;
       direction: ltr;
+      color: var(--text-primary);
+      transition: background-color 0.5s ease, color 0.5s ease;
     }
 
     /* Loading Screen */
@@ -34,7 +60,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #d8c3a5;
+      background-color: var(--bg-primary);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -47,7 +73,7 @@
       height: 300px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 50px var(--shadow-color);
     }
 
     /* 🌿 Navbar Style */
@@ -57,8 +83,8 @@
       justify-content: center;
       align-items: center;
       margin-top: 20px;
-      background-color: rgb(255, 255, 255);
-      box-shadow: 0 5px 15px #978d5d;
+      background-color: rgba(10, 10, 15, 0.95);
+      box-shadow: 0 5px 15px var(--shadow-color);
       position: fixed;
       top: 20px;
       z-index: 1000;
@@ -68,17 +94,19 @@
       transition: all 0.3s ease;
       padding: 10px 20px;
       box-sizing: border-box;
+      border: 1px solid var(--border-color);
     }
 
     /* Logo */
     .navbar .logo img {
-      height: 45px;
-      width: 45px;
+     height: 55px;
+      width: 55px;
       border-radius: 50%;
       object-fit: cover;
       margin-right: 30px;
       opacity: 0;
-      flex-shrink: 0; /* منع تصغير اللوجو عند التكبير */
+      flex-shrink: 0;
+      border: 2px solid var(--accent-primary);
     }
 
     /* Links */
@@ -95,7 +123,7 @@
 
     .nav-links a {
       text-decoration: none;
-      color: #3E3B32;
+      color: var(--text-primary);
       font-size: clamp(14px, 2vw, 18px);
       font-weight: 500;
       padding: 5px 0;
@@ -113,7 +141,7 @@
       left: 0;
       width: 0;
       height: 3px;
-      background: linear-gradient(90deg, #978d5d, #CB997E);
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
       border-radius: 0;
       transition: all 0.5s ease-in-out;
     }
@@ -127,16 +155,16 @@
     .nav-links li.active a::before {
       width: 100%;
       border-radius: 50%;
-      background: linear-gradient(90deg, #978d5d, #CB997E);
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
     }
 
     .nav-links li:hover a,
     .nav-links li.active a {
-      color: #978d5d;
+      color: var(--accent-secondary);
     }
 
     .contact {
-      background-color: rgb(0, 0, 0);
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       border-radius: 20px;
       width: clamp(70px, 12vw, 90px);
       text-align: center;
@@ -152,6 +180,7 @@
 
     .contact:hover {
       transform: scale(1.2);
+      background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
     }
 
     /* Mobile Menu Toggle */
@@ -159,7 +188,7 @@
       display: none;
       background: none;
       border: none;
-      color: #3E3B32;
+      color: var(--text-primary);
       font-size: 24px;
       cursor: pointer;
       position: absolute;
@@ -178,7 +207,7 @@
 
     .s1 h1 {
       font-size: clamp(32px, 8vw, 90px);
-      color: #3E3B32;
+      color: var(--text-primary);
       text-align: left;
       margin-left: clamp(20px, 5vw, 90px);
       max-width: 1200px;
@@ -195,7 +224,7 @@
     }
 
     .the-words {
-      color: #3E3B32;
+      color: var(--text-primary);
       flex: 1;
     }
 
@@ -209,7 +238,7 @@
     .the-img img {
       height: clamp(200px, 40vw, 350px);
       border-radius: 20px;
-      box-shadow: 25px 20px 25px #978d5d;
+      box-shadow: 25px 20px 25px var(--shadow-color);
       opacity: 0;
       transform: translateX(100px);
     }
@@ -226,7 +255,7 @@
 
     /* Card */
     .card-container {
-      background: #d8c3a5;
+    background: linear-gradient(135deg, var(--accent-primary), #212b31);
       display: flex;
       align-items: center;
       gap: 30px;
@@ -235,13 +264,14 @@
       min-height: 310px;
       padding: 40px 40px 40px clamp(20px, 25vw, 300px);
       border-radius: 20px;
-      box-shadow: 25px 20px 25px #978d5d;
+      box-shadow: 25px 20px 25px var(--shadow-color);
       position: relative;
       overflow: visible;
       transition: transform .4s ease-out;
       transform-style: preserve-3d;
       cursor: pointer;
       box-sizing: border-box;
+      border: 1px solid var(--border-color);
     }
 
     /* تأثير Parallax للـ Card عند Hover */
@@ -252,7 +282,7 @@
     /* Image */
     .card-image {
       position: absolute;
-      left: clamp(-40px, -5vw, -50px); /* استخدام clamp لجعل الموضع متجاوب */
+      left: clamp(-40px, -5vw, -50px);
       top: 92%;
       transform: translateY(-50%);
       transition: transform 2.2s ease-out;
@@ -263,7 +293,7 @@
       height: clamp(180px, 25vw, 260px);
       object-fit: cover;
       border-radius: 15px;
-      box-shadow: 0 8px 20px #978d5d;
+      box-shadow: 0 8px 20px var(--shadow-color);
       opacity: 0;
       scale: 0.8;
       transform: translateY(-50%) rotateY(90deg);
@@ -277,7 +307,7 @@
     }
 
     .card-text .date {
-      color: #5f5c50;
+      color: var(--text-secondary);
       font-size: clamp(12px, 2vw, 14px);
       display: block;
       margin-bottom: 10px;
@@ -286,12 +316,12 @@
 
     .card-text h2 {
       font-size: clamp(20px, 4vw, 28px);
-      color: #3e3b32;
+      color: var(--text-primary);
       transition: all 0.2s ease-out;
     }
 
     .card-text p {
-      color: #5f5c50;
+      color: var(--text-secondary);
       line-height: 1.6;
       transition: all 0.2s ease-out;
       font-size: clamp(14px, 2vw, 16px);
@@ -307,7 +337,7 @@
 
     .s2 h1 {
       font-size: clamp(32px, 8vw, 70px);
-      color: #3E3B32;
+      color: var(--text-primary);
       text-align: left;
       margin-left: clamp(20px, 10vw, 220px);
       max-width: 1200px;
@@ -327,7 +357,7 @@
       height: clamp(200px, 40vw, 350px);
       width: clamp(150px, 25vw, 250px);
       border-radius: 20px;
-      box-shadow: 25px 20px 25px #978d5d;
+      box-shadow: 25px 20px 25px var(--shadow-color);
       opacity: 0;
       transform: translateX(-100px);
     }
@@ -344,7 +374,7 @@
     .s2 .the-words li {
       margin: 15px;
       margin-bottom: 15px;
-      color: #3E3B32;
+      color: var(--text-primary);
       line-height: 1.6;
       text-align: left;
     }
@@ -361,6 +391,7 @@
       font-size: clamp(1.5rem, 4vw, 2rem);
       margin-bottom: 30px;
       font-weight: bold;
+      color: var(--text-primary);
     }
 
     .skills-categories {
@@ -372,14 +403,16 @@
     }
 
     .skills-category {
+      background: var(--bg-card);
       border-radius: 15px;
       padding: 30px;
-      box-shadow: 0 10px 25px rgba(151, 141, 93, 0.3);
+      box-shadow: 0 10px 25px var(--shadow-color);
+      border: 1px solid var(--border-color);
     }
 
     .category-title {
       font-size: clamp(1.3rem, 3vw, 1.8rem);
-      color: #3E3B32;
+      color: var(--text-primary);
       margin-bottom: 30px;
       font-weight: bold;
     }
@@ -397,19 +430,20 @@
     .skill-content {
       height: 200px;
       position: relative;
-      background: #d8d7d2;
+      background: var(--bg-card);
       padding: 30px 20px;
       border-radius: 10px;
-      box-shadow: 0 10px 20px #978d5d;
+      box-shadow: 0 10px 20px var(--shadow-color);
       transform: translateZ(0);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
       overflow: hidden;
+      border: 1px solid var(--border-color);
     }
 
     .skill-title {
       font-size: clamp(1rem, 2.5vw, 1.3rem);
       font-weight: bold;
-      color: #3E3B32;
+      color: var(--text-primary);
       transition: transform 0.4s ease;
     }
 
@@ -419,9 +453,9 @@
       bottom: -100%;
       width: 100%;
       padding: 20px;
-      background: #949d9c;
-      color: #fff;
-      font-size: clamp(0.8rem, 2vw, 1rem);
+     text-decoration: solid;
+      color: var(--accent-primary);
+      font-size: clamp(1rem, 2vw, 1rem) ;
       line-height: 1.4;
       transition: bottom 0.4s ease;
       border-bottom-left-radius: 10px;
@@ -430,7 +464,7 @@
 
     .skill-card:hover .skill-content {
       transform: rotateX(15deg) translateY(-10px);
-      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 15px 25px var(--shadow-color);
     }
 
     .skill-card:hover .skill-title {
@@ -441,22 +475,22 @@
       bottom: 0;
     }
 
-    /* ========== السكشن الجديد للمشاريع - شكل الفيديو 2 ========== */
-    .projects-section {
+    /* ========== السكشن الجديد للمشاريع ========== */
+    .projects-3-section {
       padding: 80px 20px;
-      background-color: #F5F2EB;
+      background-color: var(--bg-primary);
       position: relative;
     }
 
-    .projects-title {
+    .projects-3-title {
       font-size: clamp(2rem, 6vw, 3.5rem);
-      color: #3E3B32;
+      color: var(--text-primary);
       text-align: center;
       margin-bottom: 60px;
       font-weight: bold;
     }
 
-    .projects-grid {
+    .projects-3-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
       gap: 40px;
@@ -465,27 +499,27 @@
     }
 
     .project-item {
-      background: #d8c3a5;
+      background: var(--bg-card);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 20px 40px rgba(151, 141, 93, 0.3);
+      box-shadow: 0 20px 40px var(--shadow-color);
       transition: all 0.4s ease;
       position: relative;
-      border: 1px solid rgba(151, 141, 93, 0.1);
+      border: 1px solid var(--border-color);
     }
 
     .project-item:hover {
       transform: translateY(-15px);
-      box-shadow: 0 30px 60px rgba(151, 141, 93, 0.4);
+      box-shadow: 0 30px 60px var(--shadow-color);
     }
 
     .video-container {
       position: relative;
       width: 100%;
-      height: 300px;
-      background: #3E3B32;
+      height: 350px;
+      background: var(--bg-secondary);
       overflow: hidden;
-      border-bottom: 3px solid #978d5d;
+      border-bottom: 3px solid var(--accent-primary);
     }
 
     .project-video {
@@ -507,7 +541,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, rgba(151, 141, 93, 0.8), rgba(203, 153, 126, 0.6));
+      
       display: flex;
       align-items: center;
       justify-content: center;
@@ -538,14 +572,14 @@
 
     .project-info h3 {
       font-size: 1.6rem;
-      color: #3E3B32;
+      color: var(--text-primary);
       margin-bottom: 15px;
       font-weight: bold;
       text-align: center;
     }
 
     .project-info p {
-      color: #5f5c50;
+      color: var(--text-secondary);
       line-height: 1.7;
       margin-bottom: 20px;
       font-size: 1rem;
@@ -560,22 +594,22 @@
     }
 
     .tech-tag {
-      background: linear-gradient(135deg, #978d5d, #CB997E);
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       color: white;
       padding: 8px 16px;
       border-radius: 20px;
       font-size: 0.85rem;
       font-weight: 600;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(151, 141, 93, 0.3);
+      box-shadow: 0 4px 12px var(--shadow-color);
     }
 
     .tech-tag:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 18px rgba(151, 141, 93, 0.4);
+      box-shadow: 0 6px 18px var(--shadow-color);
     }
 
-    /* Modal للفيديو - معدل */
+    /* Modal للفيديو */
     .video-modal {
       display: none;
       position: fixed;
@@ -598,12 +632,11 @@
       position: relative;
       width: 90%;
       max-width: 1200px;
-      background: #1a1a1a;
+      background: var(--bg-primary);
       border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-      border: 2px solid #978d5d;
-      /* التعديل الجديد للطول */
+      box-shadow: 0 25px 50px var(--shadow-color);
+      border: 2px solid var(--accent-primary);
       height: 80vh;
       display: flex;
       flex-direction: column;
@@ -623,31 +656,15 @@
       width: 100%;
       height: 100%;
       display: block;
-      /* التعديل الجديد لمنع القص */
       object-fit: contain;
-      /* إظهار كل عناصر التحكم */
       controls: controls;
-    }
-
-    /* تأكد من ظهور جميع عناصر التحكم */
-    .modal-video::-webkit-media-controls-panel {
-      background: linear-gradient(transparent, rgba(0,0,0,0.7));
-    }
-
-    .modal-video::-webkit-media-controls-play-button,
-    .modal-video::-webkit-media-controls-volume-slider,
-    .modal-video::-webkit-media-controls-timeline,
-    .modal-video::-webkit-media-controls-current-time-display,
-    .modal-video::-webkit-media-controls-time-remaining-display,
-    .modal-video::-webkit-media-controls-fullscreen-button {
-      display: inline-block !important;
     }
 
     .close-modal {
       position: absolute;
       top: 15px;
       right: 15px;
-      background: rgba(151, 141, 93, 0.9);
+      background: rgba(0, 102, 255, 0.9);
       border: none;
       color: white;
       width: 50px;
@@ -665,336 +682,212 @@
     }
 
     .close-modal:hover {
-      background: rgba(203, 153, 126, 0.9);
+      background: rgba(0, 204, 255, 0.9);
       transform: scale(1.1) rotate(90deg);
     }
 
     /* Contact Section */
-    /* Contact Section - التعديلات الجديدة */
-.s4 {
-  background-color: #E7E1D7;
-  padding: 80px 20px;
-  text-align: center;
-}
+    .s4 {
+      background-color: var(--bg-card);
+      padding: 80px 20px;
+      text-align: center;
+      border-top: 2px solid var(--accent-primary);
+    }
 
-.contact-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-.contact-container h1 {
-  font-size: clamp(2rem, 6vw, 3rem);
-  color: #3E3B32;
-  margin-bottom: 60px;
-  font-weight: bold;
-}
+    .contact-container h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      color: var(--text-primary);
+      margin-bottom: 60px;
+      font-weight: bold;
+    }
 
-.contact-layout {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-  flex-wrap: wrap;
-}
+    .contact-layout {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
 
-.contact-main {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
+    .contact-main {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
 
-.contact-method {
-  margin-top: 25px;
-  background: #d8c3a5;
-  border-radius: 15px;
-  padding: 30px;
-  transition: all 1.3s ease;
-  box-shadow: 0 5px 15px rgba(151, 141, 93, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  width: clamp(280px, 30vw, 350px);
-}
+    .contact-method {
+      margin-top: 25px;
+      background: var(--bg-card);
+      border-radius: 15px;
+      padding: 30px;
+      transition: all 1.3s ease;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      width: clamp(280px, 30vw, 350px);
+      border: 1px solid var(--border-color);
+    }
 
-.contact-method:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px #978d5d;
-}
+    .contact-method:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px var(--shadow-color);
+    }
 
-.contact-method i {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  color: #3E3B32;
-  width: 60px;
-}
+    .contact-method i {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      color: var(--accent-secondary);
+      width: 60px;
+    }
 
-.contact-method div {
-  text-align: left;
-  flex: 1;
-}
+    .contact-method div {
+      text-align: left;
+      flex: 1;
+    }
 
-.contact-method h3 {
-  color: #3E3B32;
-  margin: 0 0 8px 0;
-  font-size: clamp(1rem, 2.5vw, 1.3rem);
-}
+    .contact-method h3 {
+      color: var(--text-primary);
+      margin: 0 0 8px 0;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+    }
 
-.contact-method p {
-  color: #3E3B32;
-  margin: 0;
-  font-size: clamp(0.9rem, 2vw, 1.1rem);
-  font-weight: 500;
-}
+    .contact-method p {
+      color: var(--text-secondary);
+      margin: 0;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-weight: 500;
+    }
 
-.contact-sidebar {
-  background: #d8c3a5;
-  border-radius: 15px;
-  padding: 30px;
-  transition: all 1.3s ease;
-  box-shadow: 0 5px 15px rgba(151, 141, 93, 0.2);
-  width: clamp(280px, 30vw, 350px);
-}
+    .contact-sidebar {
+      background: var(--bg-card);
+      border-radius: 15px;
+      padding: 30px;
+      transition: all 1.3s ease;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      width: clamp(280px, 30vw, 350px);
+      border: 1px solid var(--border-color);
+    }
 
-.contact-sidebar:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px #978d5d;
-}
+    .contact-sidebar:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px var(--shadow-color);
+    }
 
-.contact-sidebar h3 {
-  color: #3E3B32;
-  margin-bottom: 25px;
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
-}
+    .contact-sidebar h3 {
+      color: var(--text-primary);
+      margin-bottom: 25px;
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+    }
 
-/* التعديل الجديد لجعل الإنستجرام في المنتصف */
-.social-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-}
+    .social-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
 
-.social-row {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-}
+    .social-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+    }
 
-.social-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  color: #6B705C;
-  width: 120px;
-}
+    .social-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: rgba(0, 102, 255, 0.1);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      color: var(--text-secondary);
+      width: 120px;
+      border: 1px solid var(--border-color);
+    }
 
-.social-item:hover {
-  background: rgba(255, 255, 255, 0.5);
-  color: #CB997E;
-  transform: translateY(-3px);
-}
+    .social-item:hover {
+      background: rgba(0, 102, 255, 0.2);
+      color: var(--accent-secondary);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px var(--shadow-color);
+    }
 
-.social-item i {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  margin-bottom: 8px;
-}
+    .social-item i {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 8px;
+    }
 
-.social-item span {
-  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
-  font-weight: 500;
-}
-
-/* Media Queries للتواصل */
-@media (max-width: 768px) {
-  .contact-layout {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .contact-method,
-  .contact-sidebar {
-    width: 100%;
-    max-width: 350px;
-  }
-  
-  .social-row {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .social-item {
-    width: 100%;
-    max-width: 200px;
-  }
-}
     .social-item span {
       font-size: clamp(0.8rem, 1.8vw, 0.9rem);
       font-weight: 500;
     }
 
-    /* Media Queries */
-    @media (max-width: 768px) {
-      .projects-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-      }
-      
-      .project-item {
-        margin: 0 10px;
-      }
-      
-      .video-container {
-        height: 250px;
-      }
-      
-      .project-info {
-        padding: 25px;
-      }
-      
-      .project-info h3 {
-        font-size: 1.4rem;
-      }
-      
-      .modal-content {
-        width: 95%;
-        height: 70vh;
-      }
+    /* زر تبديل Dark/Light Mode */
+    .theme-toggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      z-index: 1000;
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
     }
 
-    @media (max-width: 480px) {
-      .projects-title {
-        font-size: clamp(1.5rem, 8vw, 2.5rem);
-        margin-bottom: 40px;
-      }
-      
-      .video-container {
-        height: 200px;
-      }
-      
-      .project-info {
-        padding: 20px;
-      }
-      
-      .play-overlay i {
-        font-size: 3rem;
-      }
-      
-      .tech-tag {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-      }
-      
-      .modal-content {
-        height: 60vh;
-      }
+    .theme-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px var(--shadow-color);
     }
 
-    @media (max-width: 360px) {
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .modal-content {
-        height: 50vh;
-      }
-    }
-    /* Media Queries للتصميم المتجاوب - بنفس أسلوب الـ Skills */
-    @media (max-width: 1200px) {
-      .navbar {
-        width: min(90%, 600px);
-      }
-      
-      .nav-links {
-        gap: clamp(15px, 2.5vw, 25px);
-      }
-      
-      .s1 h1 {
-        font-size: clamp(32px, 7vw, 70px);
-        margin-left: clamp(20px, 4vw, 50px);
-      }
-      
-      .about {
-        margin-left: clamp(20px, 4vw, 50px);
-      }
-      
-      .s2 h1 {
-        font-size: clamp(32px, 6vw, 60px);
-        margin-right: clamp(20px, 8vw, 150px);
-      }
-      
-      .s2 .about {
-        margin-left: clamp(20px, 8vw, 150px);
-        gap: clamp(20px, 8vw, 100px);
-      }
-      
-      .project-card {
-        width: 100%;
-      }
+    /* زر العودة للأعلى */
+    .back-to-top {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      z-index: 1000;
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
     }
 
-    @media (max-width: 992px) {
-      .navbar {
-        width: min(90%, 600px);
-      }
-      
-      .nav-links {
-        gap: clamp(15px, 2vw, 20px);
-      }
-      
-      .nav-links a {
-        font-size: clamp(14px, 1.8vw, 16px);
-      }
-      
-      .s1 h1 {
-        font-size: clamp(28px, 6vw, 60px);
-        margin-left: clamp(15px, 3vw, 30px);
-      }
-      
-      .about {
-        margin-left: clamp(15px, 3vw, 30px);
-        gap: clamp(15px, 3vw, 30px);
-      }
-      
-      .the-words p {
-        font-size: clamp(16px, 2.5vw, 20px);
-      }
-      
-      .s2 h1 {
-        font-size: clamp(28px, 5vw, 50px);
-        margin-right: clamp(15px, 6vw, 100px);
-      }
-      
-      .s2 .about {
-        margin-left: clamp(15px, 6vw, 100px);
-        gap: clamp(15px, 6vw, 70px);
-      }
-      
-      .s2 .the-words ul {
-        font-size: clamp(18px, 3vw, 24px);
-      }
-      
-      .project-card {
-        width: 100%;
-      }
-      
-      .card-container {
-        padding: 40px 40px 40px clamp(20px, 25vw, 280px);
-      }
-      
-      .card-image {
-        left: clamp(-30px, -4vw, -40px);
-      }
-      
-      .card-image img {
-        width: clamp(180px, 25vw, 280px);
-        height: clamp(160px, 22vw, 240px);
-      }
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
     }
 
+    .back-to-top:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px var(--shadow-color);
+    }
+
+    /* Media Queries - نفس الـ Media Queries السابقة بدون تغيير */
     @media (max-width: 768px) {
       .navbar {
         width: min(95%, 500px);
@@ -1012,11 +905,11 @@
         top: 100%;
         left: 0;
         width: 100%;
-        background-color: #000000;
+        background-color: rgba(10, 10, 15, 0.95);
         flex-direction: column;
         padding: 20px;
         border-radius: 0 0 40px 40px;
-        box-shadow: 0 5px 15px #978d5d;
+        box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
         gap: 15px;
       }
       
@@ -1096,14 +989,30 @@
         height: clamp(140px, 25vw, 220px);
       }
       
-      .projects-container {
+      .projects-3-grid {
         grid-template-columns: 1fr;
-        justify-items: center;
+        gap: 30px;
       }
       
-      .project-card {
-        width: 100%;
-        max-width: 400px;
+      .project-item {
+        margin: 0 10px;
+      }
+      
+      .video-container {
+        height: 250px;
+      }
+      
+      .project-info {
+        padding: 25px;
+      }
+      
+      .project-info h3 {
+        font-size: 1.4rem;
+      }
+      
+      .modal-content {
+        width: 95%;
+        height: 70vh;
       }
       
       .contact-method,
@@ -1119,6 +1028,142 @@
       
       .skills-grid {
         grid-template-columns: 1fr;
+      }
+      
+      .theme-toggle,
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+      
+      .back-to-top {
+        bottom: 80px;
+      }
+    }
+
+    /* باقي الـ Media Queries تبقى كما هي بدون تغيير في الهيكل */
+    @media (max-width: 480px) {
+      .projects-3-title {
+        font-size: clamp(1.5rem, 8vw, 2.5rem);
+        margin-bottom: 40px;
+      }
+      
+      .video-container {
+        height: 200px;
+      }
+      
+      .project-info {
+        padding: 20px;
+      }
+      
+      .play-overlay i {
+        font-size: 3rem;
+      }
+      
+      .tech-tag {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+      
+      .modal-content {
+        height: 60vh;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .projects-3-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .modal-content {
+        height: 50vh;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .navbar {
+        width: min(90%, 600px);
+      }
+      
+      .nav-links {
+        gap: clamp(15px, 2.5vw, 25px);
+      }
+      
+      .s1 h1 {
+        font-size: clamp(32px, 7vw, 70px);
+        margin-left: clamp(20px, 4vw, 50px);
+      }
+      
+      .about {
+        margin-left: clamp(20px, 4vw, 50px);
+      }
+      
+      .s2 h1 {
+        font-size: clamp(32px, 6vw, 60px);
+        margin-right: clamp(20px, 8vw, 150px);
+      }
+      
+      .s2 .about {
+        margin-left: clamp(20px, 8vw, 150px);
+        gap: clamp(20px, 8vw, 100px);
+      }
+    }
+
+    @media (max-width: 992px) {
+      .navbar {
+        width: min(90%, 600px);
+      }
+      
+      .nav-links {
+        gap: clamp(15px, 2vw, 20px);
+      }
+      
+      .nav-links a {
+        font-size: clamp(14px, 1.8vw, 16px);
+      }
+      
+      .s1 h1 {
+        font-size: clamp(28px, 6vw, 60px);
+        margin-left: clamp(15px, 3vw, 30px);
+      }
+      
+      .about {
+        margin-left: clamp(15px, 3vw, 30px);
+        gap: clamp(15px, 3vw, 30px);
+      }
+      
+      .the-words p {
+        font-size: clamp(16px, 2.5vw, 20px);
+      }
+      
+      .s2 h1 {
+        font-size: clamp(28px, 5vw, 50px);
+        margin-right: clamp(15px, 6vw, 100px);
+      }
+      
+      .s2 .about {
+        margin-left: clamp(15px, 6vw, 100px);
+        gap: clamp(15px, 6vw, 70px);
+      }
+      
+      .s2 .the-words ul {
+        font-size: clamp(18px, 3vw, 24px);
+      }
+      
+      .card-container {
+        padding: 40px 40px 40px clamp(20px, 25vw, 280px);
+      }
+      
+      .card-image {
+        left: clamp(-30px, -4vw, -40px);
+      }
+      
+      .card-image img {
+        width: clamp(180px, 25vw, 280px);
+        height: clamp(160px, 22vw, 240px);
       }
     }
 
@@ -1191,20 +1236,22 @@
         padding: 20px;
       }
     }
+    
+    
   </style>
 </head>
 
 <body>
   <!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
-    <img src="WhatsApp Image 2025-11-11 at 3.07.42 PM.jpeg" alt="Loading" class="loading-image" id="loadingImage">
+    <img src="ChatGPT Image 30 .png" alt="Loading" class="loading-image" id="loadingImage">
   </div>
 
   <main>
     <!-- ✅ Navbar -->
     <nav class="navbar" id="mainNavbar">
       <div class="logo">
-        <img src="WhatsApp Image 2025-11-11 at 3.07.42 PM.jpeg" alt="logo" id="navLogo">
+        <img src="ChatGPT Image 30 .png" alt="logo" id="navLogo">
       </div>
 
       <button class="menu-toggle" id="menuToggle">
@@ -1215,7 +1262,7 @@
         <li class="active"><a href="#about">About</a></li>
         <li><a href="#Services">Services</a></li>
         <li><a href="#skill">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
+        <li><a href="#projects-3">Projects</a></li>
         <li class="contact"><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -1387,14 +1434,48 @@
   </section>
 
   <!-- Projects Section الجديدة -->
-  <section id="projects" class="projects-section">
-    <h2 class="projects-title">My Projects</h2>
-    
-    <div class="projects-grid">
+  <section id="projects-3" class="projects-3-section">
+    <h2 class="projects-3-title">My Projects</h2>
+
+
+
+
+    <!-- البروجيكت الاافضل  1 -->
+      <div class="project-item">
+        <div class="video-container" id="the-best">
+          <video class="project-video" poster="7.png">
+            <source src="7.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="play-overlay" data-video="7.mp4">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="project-info">
+          <h3>3D Product Visualization – Organic Skincare Concept</h3>
+          <p> 
+A clean and modern 3D showcase featuring rotating organic skincare tubes, presented on a smooth green backdrop. The animation highlights product form, minimalist packaging, lighting balance, and soft camera motion to create a fresh, nature-inspired advertising look.Created by: Ziad Medhat</p>
+          <div class="project-tech">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">3D Modeling</span>
+            <span class="tech-tag">Texturing</span>
+          </div>
+        </div>
+      </div>
+    <div class="projects-3-grid">
+
+
+
+      
+
+
+
+
+
       <!-- Project 1 -->
       <div class="project-item">
         <div class="video-container">
-          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+1">
+          <video class="project-video" poster="1.png">
             <source src="1.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -1416,7 +1497,7 @@
       <!-- Project 2 -->
       <div class="project-item">
         <div class="video-container">
-          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+2">
+          <video class="project-video" poster="2.png">
             <source src="2.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -1438,7 +1519,7 @@
       <!-- Project 3 -->
       <div class="project-item">
         <div class="video-container">
-          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+3">
+          <video class="project-video" poster="3.png">
             <source src="3.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -1448,7 +1529,7 @@
         </div>
         <div class="project-info">
           <h3>Essential Jewellery Ring Animation – Zid Perfume – Zohour Yeltaqy Bilsassa Mina Al Fakhamah</h3>
-          <p>A creative 3D ring animation showcasing jewellery design for the “Zid Perfume” brand. Focuses on elegant movement, lighting, and product styling for a premium feel. Created by: Ziad Medhat</p>
+          <p>A creative 3D ring animation showcasing jewellery design for the "Zid Perfume" brand. Focuses on elegant movement, lighting, and product styling for a premium feel. Created by: Ziad Medhat</p>
           <div class="project-tech">
             <span class="tech-tag">Product Design</span>
             <span class="tech-tag">3D Modeling</span>
@@ -1460,7 +1541,7 @@
       <!-- Project 4 -->
       <div class="project-item">
         <div class="video-container">
-          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+4">
+          <video class="project-video" poster="4.png">
             <source src="4.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -1482,7 +1563,7 @@
       <!-- Project 5 -->
       <div class="project-item">
         <div class="video-container">
-          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+5">
+          <video class="project-video" poster="5.png">
             <source src="5.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -1505,7 +1586,7 @@ Created by: Ziad Medhat</p>
       <!-- Project 6 -->
       <div class="project-item">
         <div class="video-container">
-          <video class="project-video" poster="https://via.placeholder.com/400x250/3E3B32/d8c3a5?text=Project+6">
+          <video class="project-video" poster="6.png">
             <source src="6.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -1526,7 +1607,7 @@ Created by: Ziad Medhat</p>
     </div>
   </section>
 
-  <!-- Modal للفيديو - معدل -->
+  <!-- Modal للفيديو -->
   <div class="video-modal" id="videoModal">
     <div class="modal-content">
       <div class="modal-video-wrapper">
@@ -1589,6 +1670,17 @@ Created by: Ziad Medhat</p>
     </div>
   </div>
 </section>
+
+  <!-- زر تبديل Dark/Light Mode -->
+  <button class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <!-- زر العودة للأعلى -->
+  <button class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
   <script src="bootstrap.bundle.js"></script>
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -1601,6 +1693,8 @@ Created by: Ziad Medhat</p>
       const navbar = document.getElementById('mainNavbar');
       const menuToggle = document.getElementById('menuToggle');
       const navLinks = document.getElementById('navLinks');
+      const themeToggle = document.getElementById('themeToggle');
+      const backToTop = document.getElementById('backToTop');
 
       // إضافة وظيفة القائمة المتنقلة
       menuToggle.addEventListener('click', function () {
@@ -1647,6 +1741,8 @@ Created by: Ziad Medhat</p>
               initNavbarScroll();
               initNavbarClick();
               initVideoModal();
+              initThemeToggle();
+              initBackToTop();
             }
           });
       }, 1000);
@@ -1660,10 +1756,10 @@ Created by: Ziad Medhat</p>
 
           if (currentScrollY > 100) {
             navbar.style.top = '10px';
-            navbar.style.boxShadow = '0 5px 15px rgba(151, 141, 93, 0.3)';
+            navbar.style.boxShadow = '0 5px 15px var(--shadow-color)';
           } else {
             navbar.style.top = '20px';
-            navbar.style.boxShadow = '0 5px 15px #978d5d';
+            navbar.style.boxShadow = '0 5px 15px var(--shadow-color)';
           }
 
           lastScrollY = currentScrollY;
@@ -1759,7 +1855,7 @@ Created by: Ziad Medhat</p>
         });
       }
 
-      // دالة للتحكم في Modal الفيديو - معدلة
+      // دالة للتحكم في Modal الفيديو
       function initVideoModal() {
         const videoModal = document.getElementById('videoModal');
         const modalVideo = document.getElementById('modalVideo');
@@ -1812,6 +1908,46 @@ Created by: Ziad Medhat</p>
         });
       }
 
+      // دالة لتبديل وضع الظلام والوضع الفاتح
+      function initThemeToggle() {
+        // التحقق من التفضيلات المحفوظة
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+          document.body.classList.add('light-mode');
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        themeToggle.addEventListener('click', function() {
+          document.body.classList.toggle('light-mode');
+          
+          if (document.body.classList.contains('light-mode')) {
+            localStorage.setItem('theme', 'light');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+          } else {
+            localStorage.setItem('theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+          }
+        });
+      }
+
+      // دالة للتحكم في زر العودة للأعلى
+      function initBackToTop() {
+        window.addEventListener('scroll', function() {
+          if (window.pageYOffset > 300) {
+            backToTop.classList.add('show');
+          } else {
+            backToTop.classList.remove('show');
+          }
+        });
+
+        backToTop.addEventListener('click', function() {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+      }
+
       gsap.fromTo('.s1 .the-img img',
         { opacity: 0, x: 100 },
         {
@@ -1844,7 +1980,7 @@ Created by: Ziad Medhat</p>
         {
           opacity: 1, y: 0, duration: 0.8, ease: "power2.out",
           scrollTrigger: {
-            trigger: '.projects-section',
+            trigger: '.projects-3-section',
             start: 'top 80%',
             end: 'bottom 20%',
             toggleActions: "play none none reverse"
