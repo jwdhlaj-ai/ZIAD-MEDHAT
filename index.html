@@ -5,15 +5,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ZIAD MEDHAT - 3D Designer</title>
+  
+  <!-- Bootstrap & FontAwesome -->
   <link rel="stylesheet" href="bootstrap.css" />
   <link rel="stylesheet" href="all.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab">
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-   
-  <!-- Add GSAP Library -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab">
+
+  <!-- GSAP Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
@@ -53,6 +54,114 @@
       transition: background-color 0.5s ease, color 0.5s ease;
     }
 
+
+
+
+    /* ==================== Intro Video Overlay ==================== */
+    .intro-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      z-index: 100000; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease, visibility 0.8s;
+    }
+
+    .intro-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-video-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .intro-video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; 
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* زر التخطي */
+    .skip-intro-btn {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid var(--accent-secondary);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 100001;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .skip-intro-btn:hover {
+      background: var(--accent-secondary);
+      transform: scale(1.05);
+    }
+
+    /* رسالة تفعيل الصوت (جديدة) */
+    .enable-audio-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none; /* مخفي افتراضياً */
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 100002;
+      cursor: pointer;
+    }
+
+    .enable-audio-btn {
+      background: var(--accent-primary);
+      color: white;
+      padding: 15px 40px;
+      border-radius: 50px;
+      font-size: 20px;
+      font-weight: bold;
+      border: 2px solid white;
+      cursor: pointer;
+      transition: transform 0.3s;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 102, 255, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 102, 255, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 102, 255, 0); }
+    }
+
+    .enable-audio-btn:hover {
+      transform: scale(1.1);
+    }
+
+
+    
+
     /* Loading Screen */
     .loading-screen {
       position: fixed;
@@ -76,7 +185,7 @@
       box-shadow: 0 20px 50px var(--shadow-color);
     }
 
-    /* 🌿 Navbar Style */
+    /* Navbar Style */
     .navbar {
       width: min(90%, 600px);
       display: flex;
@@ -97,9 +206,8 @@
       border: 1px solid var(--border-color);
     }
 
-    /* Logo */
     .navbar .logo img {
-     height: 55px;
+      height: 55px;
       width: 55px;
       border-radius: 50%;
       object-fit: cover;
@@ -109,7 +217,6 @@
       border: 2px solid var(--accent-primary);
     }
 
-    /* Links */
     .nav-links {
       list-style: none;
       display: flex;
@@ -133,7 +240,6 @@
       white-space: nowrap;
     }
 
-    /* تأثير الخط المتحرك تحت الروابط */
     .nav-links a::before {
       content: '';
       position: absolute;
@@ -151,7 +257,6 @@
       border-radius: 50%;
     }
 
-    /* تأثير الخط للرابط النشط */
     .nav-links li.active a::before {
       width: 100%;
       border-radius: 50%;
@@ -183,7 +288,6 @@
       background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
     }
 
-    /* Mobile Menu Toggle */
     .menu-toggle {
       display: none;
       background: none;
@@ -243,7 +347,6 @@
       transform: translateX(100px);
     }
 
-    /* Background */
     .hero-card {
       margin-top: 25px;
       display: flex;
@@ -253,9 +356,8 @@
       position: relative;
     }
 
-    /* Card */
     .card-container {
-    background: linear-gradient(135deg, var(--accent-primary), #212b31);
+      background: linear-gradient(135deg, var(--accent-primary), #212b31);
       display: flex;
       align-items: center;
       gap: 30px;
@@ -274,12 +376,10 @@
       border: 1px solid var(--border-color);
     }
 
-    /* تأثير Parallax للـ Card عند Hover */
     .card-container:hover {
       transform: perspective(2500px) rotateX(var(--rotateX)) rotateY(var(--rotateY)) scale3d(1.01, 1.01, 1.01);
     }
 
-    /* Image */
     .card-image {
       position: absolute;
       left: clamp(-40px, -5vw, -50px);
@@ -300,7 +400,6 @@
       transition: all 0.3s ease-out;
     }
 
-    /* Text */
     .card-text {
       flex: 1;
       transition: transform 0.2s ease-out;
@@ -379,7 +478,6 @@
       text-align: left;
     }
 
-    /* قسم المهارات */
     .skills-section {
       margin-bottom: 50px;
       margin-top: 50px;
@@ -453,9 +551,9 @@
       bottom: -100%;
       width: 100%;
       padding: 20px;
-     text-decoration: solid;
+      text-decoration: solid;
       color: var(--accent-primary);
-      font-size: clamp(1rem, 2vw, 1rem) ;
+      font-size: clamp(1rem, 2vw, 1rem);
       line-height: 1.4;
       transition: bottom 0.4s ease;
       border-bottom-left-radius: 10px;
@@ -475,215 +573,342 @@
       bottom: 0;
     }
 
-    /* ========== السكشن الجديد للمشاريع ========== */
-    .projects-3-section {
-      padding: 80px 20px;
+    /* Video Carousel Section */
+    .video-carousel-section {
+      padding: 100px 20px;
       background-color: var(--bg-primary);
-      position: relative;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
     }
 
-    .projects-3-title {
+    .video-carousel-title {
       font-size: clamp(2rem, 6vw, 3.5rem);
       color: var(--text-primary);
-      text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 80px;
       font-weight: bold;
+      text-align: center;
     }
 
-    .projects-3-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 40px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .project-item {
-      background: var(--bg-card);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 40px var(--shadow-color);
-      transition: all 0.4s ease;
-      position: relative;
-      border: 1px solid var(--border-color);
-    }
-
-    .project-item:hover {
-      transform: translateY(-15px);
-      box-shadow: 0 30px 60px var(--shadow-color);
-    }
-
-    .video-container {
+    .carousel-container {
       position: relative;
       width: 100%;
-      height: 350px;
-      background: var(--bg-secondary);
-      overflow: hidden;
-      border-bottom: 3px solid var(--accent-primary);
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 40px;
     }
 
-    .project-video {
+    .video-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 240px;
+      height: 140px;
+      margin-left: -120px;
+      margin-top: -70px;
+      background: var(--bg-card);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      overflow: hidden;
+      transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      cursor: pointer;
+      border: 2px solid var(--border-color);
+      z-index: 1;
+      box-sizing: border-box;
+      transform-style: preserve-3d;
+    }
+
+    .video-card video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: all 0.4s ease;
-      filter: brightness(0.9);
+      pointer-events: none;
+      display: block;
+      background-color: #000;
+      transform: rotateY(0deg);
     }
 
-    .project-item:hover .project-video {
-      transform: scale(1.08);
-      filter: brightness(1);
+    .video-card.active {
+      width: 640px;
+      height: 360px;
+      margin-left: -320px;
+      margin-top: -180px;
+      z-index: 10;
+      box-shadow: 0 25px 60px var(--accent-primary);
+      border: 4px solid var(--accent-primary);
+      transform: scale(1) rotateY(0deg) !important;
     }
 
-    .play-overlay {
+    .video-card:not(.active) {
+      opacity: 0.6;
+      filter: grayscale(80%);
+    }
+
+    .read-me-btn {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .play-overlay i {
-      font-size: 4rem;
+      bottom: 10px;
+      right: 10px;
+      background: var(--accent-primary);
       color: white;
-      transform: scale(0.8);
-      transition: all 0.3s ease;
-      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .video-container:hover .play-overlay {
-      opacity: 1;
-    }
-
-    .video-container:hover .play-overlay i {
-      transform: scale(1.1);
-    }
-
-    .project-info {
-      padding: 30px;
-    }
-
-    .project-info h3 {
-      font-size: 1.6rem;
-      color: var(--text-primary);
-      margin-bottom: 15px;
+      padding: 6px 15px;
+      border-radius: 15px;
+      font-size: 12px;
       font-weight: bold;
-      text-align: center;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+    
+    .read-me-btn:hover {
+      background: var(--accent-secondary);
+      transform: scale(1.05);
     }
 
-    .project-info p {
-      color: var(--text-secondary);
-      line-height: 1.7;
+    .video-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      color: white;
+      font-weight: bold;
+      pointer-events: none;
+    }
+
+    .project-info-box {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 30px;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      border: 1px solid var(--border-color);
+      text-align: left;
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .project-info-box.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-info-box h3 {
+      font-size: 1.8rem;
+      color: var(--text-primary);
       margin-bottom: 20px;
-      font-size: 1rem;
       text-align: center;
+      font-weight: bold;
     }
 
-    .project-tech {
+    .project-info-box p {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 25px;
+      font-size: 1.1rem;
+    }
+
+    .project-tech-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
     }
 
-    .tech-tag {
+    .project-tech-tag {
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 0.95rem;
       font-weight: 600;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px var(--shadow-color);
+      box-shadow: 0 4px 15px var(--shadow-color);
     }
 
-    .tech-tag:hover {
+    .project-tech-tag:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 18px var(--shadow-color);
+      box-shadow: 0 6px 20px var(--shadow-color);
     }
 
-    /* Modal للفيديو */
-    .video-modal {
-      display: none;
+    .carousel-controls {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+      z-index: 20;
+      pointer-events: auto;
+    }
+
+    .carousel-btn {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 30px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px var(--shadow-color);
+      transition: transform 0.3s, background 0.3s;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .carousel-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 25px var(--shadow-color);
+    }
+
+    /* Expanded Video Overlay */
+    .video-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.95);
-      z-index: 2000;
+      z-index: 9990;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+
+    .video-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .video-close-btn {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid var(--accent-secondary);
+      color: white;
+      border-radius: 50%;
+      font-size: 30px;
+      display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.5);
+      transition: all 0.3s;
+    }
+
+    .video-close-btn.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+
+    .video-close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .expanded-video-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      width: 80vw;
+      height: 80vh;
+      background: #000;
+      border-radius: 15px;
+      z-index: 9995;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 50px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .expanded-video-container.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .expanded-video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 15px;
+    }
+
+    .video-controls {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px 25px;
+      border-radius: 30px;
       backdrop-filter: blur(10px);
     }
 
-    .video-modal.active {
-      display: flex;
+    .video-controls.active {
+      opacity: 1;
+      visibility: visible;
     }
 
-    .modal-content {
-      position: relative;
-      width: 90%;
-      max-width: 1200px;
-      background: var(--bg-primary);
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px var(--shadow-color);
-      border: 2px solid var(--accent-primary);
-      height: 80vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .modal-video-wrapper {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .modal-video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: contain;
-      controls: controls;
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: rgba(0, 102, 255, 0.9);
+    .video-control-btn {
+      background: transparent;
       border: none;
       color: white;
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      font-size: 1.5rem;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      font-size: 22px;
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      z-index: 2001;
     }
 
-    .close-modal:hover {
-      background: rgba(0, 204, 255, 0.9);
-      transform: scale(1.1) rotate(90deg);
+    .video-control-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.15);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .video-control-btn:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.4);
     }
 
     /* Contact Section */
@@ -828,7 +1053,6 @@
       font-weight: 500;
     }
 
-    /* زر تبديل Dark/Light Mode */
     .theme-toggle {
       position: fixed;
       bottom: 30px;
@@ -854,7 +1078,6 @@
       box-shadow: 0 8px 20px var(--shadow-color);
     }
 
-    /* زر العودة للأعلى */
     .back-to-top {
       position: fixed;
       bottom: 100px;
@@ -887,7 +1110,7 @@
       box-shadow: 0 8px 20px var(--shadow-color);
     }
 
-    /* Media Queries - نفس الـ Media Queries السابقة بدون تغيير */
+    /* Media Queries */
     @media (max-width: 768px) {
       .navbar {
         width: min(95%, 500px);
@@ -989,30 +1212,31 @@
         height: clamp(140px, 25vw, 220px);
       }
       
-      .projects-3-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
+      .carousel-container {
+        height: 300px;
       }
       
-      .project-item {
-        margin: 0 10px;
+      .video-card.active {
+        width: 90vw;
+        height: 50vw;
+        margin-left: -45vw;
+        margin-top: -25vw;
       }
       
-      .video-container {
-        height: 250px;
-      }
-      
-      .project-info {
+      .project-info-box {
         padding: 25px;
+        margin-top: 20px;
       }
       
-      .project-info h3 {
-        font-size: 1.4rem;
+      .carousel-controls {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
       }
       
-      .modal-content {
-        width: 95%;
-        height: 70vh;
+      .carousel-btn {
+        padding: 12px 30px;
+        font-size: 16px;
       }
       
       .contact-method,
@@ -1044,42 +1268,33 @@
       }
     }
 
-    /* باقي الـ Media Queries تبقى كما هي بدون تغيير في الهيكل */
     @media (max-width: 480px) {
-      .projects-3-title {
+      .video-carousel-title {
         font-size: clamp(1.5rem, 8vw, 2.5rem);
         margin-bottom: 40px;
       }
       
-      .video-container {
-        height: 200px;
+      .carousel-container {
+        height: 250px;
       }
       
-      .project-info {
-        padding: 20px;
+      .video-close-btn {
+        top: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
       }
-      
-      .play-overlay i {
-        font-size: 3rem;
-      }
-      
-      .tech-tag {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-      }
-      
-      .modal-content {
+
+      .expanded-video-container {
+        width: 95vw;
         height: 60vh;
       }
     }
 
     @media (max-width: 360px) {
-      .projects-3-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .modal-content {
-        height: 50vh;
+      .carousel-container {
+        height: 220px;
       }
     }
 
@@ -1236,19 +1451,41 @@
         padding: 20px;
       }
     }
-    
-    
   </style>
 </head>
 
 <body>
+  <!-- ==================== Intro Video Overlay ==================== -->
+  <div class="intro-overlay" id="introOverlay">
+    <div class="intro-video-container">
+      <!-- ملف الفيديو الخاص بك -->
+      <!-- تمت إزالة muted لتجربة الصوت -->
+      <video id="introVideo" autoplay playsinline loop>
+        <source src="landing page.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    
+    <!-- زر التخطي -->
+    <button class="skip-intro-btn" id="skipIntroBtn">Skip Intro <i class="fas fa-arrow-right"></i></button>
+
+    <!-- رسالة تفعيل الصوت (تظهر فقط إذا رفض المتصفح التشغيل) -->
+    <div class="enable-audio-overlay" id="enableAudioOverlay">
+      <button class="enable-audio-btn" id="enableAudioBtn">
+        <i class="fas fa-volume-up"></i> Click to Enable Sound
+      </button>
+    </div>
+  </div>
+
+
+
   <!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
     <img src="ChatGPT Image 30 .png" alt="Loading" class="loading-image" id="loadingImage">
   </div>
 
   <main>
-    <!-- ✅ Navbar -->
+    <!-- Navbar -->
     <nav class="navbar" id="mainNavbar">
       <div class="logo">
         <img src="ChatGPT Image 30 .png" alt="logo" id="navLogo">
@@ -1260,9 +1497,9 @@
 
       <ul class="nav-links" id="navLinks">
         <li class="active"><a href="#about">About</a></li>
-        <li><a href="#Services">Services</a></li>
+        <li><a href="#services">Services</a></li>
         <li><a href="#skill">Skills</a></li>
-        <li><a href="#projects-3">Projects</a></li>
+        <li><a href="#video-carousel">Projects</a></li>
         <li class="contact"><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -1283,7 +1520,7 @@
     </div>
   </section>
 
-  <!-- باقي السكشنز -->
+  <!-- About Section -->
   <section class="s1" id="about">
     <h1>about me</h1>
     <div class="about">
@@ -1308,7 +1545,8 @@
     </div>
   </section>
 
-  <section class="s2" id="Services">
+  <!-- Services Section -->
+  <section class="s2" id="services">
     <h1>what I can do for you</h1>
     <div class="about">
       <div class="the-img">
@@ -1329,7 +1567,7 @@
     </div>
   </section>
 
-  <!-- قسم المهارات -->
+  <!-- Skills Section -->
   <section class="skills-section" id="skill">
     <h2 class="section-title">My Skills</h2>
     <div class="skills-categories">
@@ -1411,13 +1649,13 @@
             <div class="skill-content">
               <h3 class="skill-title">Attention to Detail</h3>
               <p class="skill-desc">Paying close attention to every aspect of the design process to ensure precision and
-                quality in the final output.</p>
+                quality in final output.</p>
             </div>
           </div>
           <div class="skill-card">
             <div class="skill-content">
               <h3 class="skill-title">Continuous Learning</h3>
-              <p class="skill-desc">Continuously improving skills through courses and practice to stay updated with the
+              <p class="skill-desc">Continuously improving skills through courses and practice to stay updated with
                 latest design trends and techniques.</p>
             </div>
           </div>
@@ -1433,271 +1671,109 @@
     </div>
   </section>
 
-  <!-- Projects Section الجديدة -->
-  <section id="projects-3" class="projects-3-section">
-    <h2 class="projects-3-title">My Projects</h2>
-
-
-
-
-    <!-- البروجيكت الاافضل  1 -->
-      <div class="project-item">
-        <div class="video-container" id="the-best">
-          <video class="project-video" poster="7.png">
-            <source src="7.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="play-overlay" data-video="7.mp4">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <div class="project-info">
-          <h3>3D Product Visualization – Organic Skincare Concept</h3>
-          <p> 
-A clean and modern 3D showcase featuring rotating organic skincare tubes, presented on a smooth green backdrop. The animation highlights product form, minimalist packaging, lighting balance, and soft camera motion to create a fresh, nature-inspired advertising look.Created by: Ziad Medhat</p>
-          <div class="project-tech">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">3D Modeling</span>
-            <span class="tech-tag">Texturing</span>
-          </div>
-        </div>
+  <!-- Video Carousel Section -->
+  <section id="video-carousel" class="video-carousel-section">
+    <h2 class="video-carousel-title">My Projects</h2>
+    
+    <div class="carousel-container" id="carouselContainer">
+      <!-- سيتم توليد البطاقات هنا -->
+    </div>
+    
+    <!-- Project Info Box -->
+    <div class="project-info-box" id="projectInfo">
+      <h3 id="projectTitle">Select a project to view details</h3>
+      <p id="projectDescription">Click on any video to see project information</p>
+      <div class="project-tech-tags" id="projectTechTags">
+        <!-- سيتم إضافة التاجات هنا -->
       </div>
-    <div class="projects-3-grid">
+    </div>
+    
+    <div class="carousel-controls">
+      <button class="carousel-btn" onclick="moveCarousel(-1)">
+        <i class="fas fa-arrow-left"></i> Previous
+      </button>
+      <button class="carousel-btn" onclick="moveCarousel(1)">
+        Next <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </section>
 
+  <!-- Overlay and Close Button for Video Carousel -->
+  <div class="video-overlay" id="videoOverlay" onclick="closeVideo()"></div>
+  <div class="video-close-btn" id="videoCloseBtn" onclick="closeVideo()">&#10005;</div>
 
+  <!-- Video Container for Expanded View -->
+  <div class="expanded-video-container" id="expandedVideoContainer">
+    <video id="mainExpandedVideo" playsinline webkit-playsinline></video>
+  </div>
 
-      
+  <!-- Video Controls -->
+  <div class="video-controls" id="videoControls">
+    <button class="video-control-btn" onclick="togglePlayPause()" id="playPauseBtn">
+      <i class="fas fa-pause"></i>
+    </button>
+    <button class="video-control-btn" onclick="toggleMute()" id="muteBtn">
+      <i class="fas fa-volume-up"></i>
+    </button>
+    <button class="video-control-btn" onclick="toggleFullscreen()">
+      <i class="fas fa-expand"></i>
+    </button>
+  </div>
 
+  <section class="s4" id="contact">
+    <div class="contact-container">
+      <h1>Let's Connect</h1>
+      <div class="contact-layout">
+        <div class="contact-main">
+          <div class="contact-method">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <h3>Phone</h3>
+              <p>+20 1272868378</p>
+            </div>
+          </div>
 
-<!-- Project 1.2 -->
-      <div class="project-item">
-        <div class="video-container">
-          <video class="project-video" poster="8.png">
-            <source src="8.mov" type="video/mov">
-            Your browser does not support the video tag.
-          </video>
-          <div class="play-overlay" data-video="8.mov">
-            <i class="fas fa-play"></i>
+          <div class="contact-method">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <h3>My Location</h3>
+              <p>Sharkia, Egypt</p>
+            </div>
           </div>
         </div>
-        <div class="project-info">
-          <h3>3D Product Visualization – Vitamin Supplement Concept</h3>
-          <p> A dynamic 3D promotional shot featuring floating red-and-white capsules moving in smooth, controlled motion over a dark botanical backdrop. The animation reveals a rotating green vitamin bottle, highlighting its label design, product details, and glossy material finish. Balanced lighting, soft shadows, and steady camera movement create a clean, modern, and clinically-inspired advertising aesthetic.
-Created by: Ziad Medhat</p>
-          <div class="project-tech">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">3D Modeling</span>
-            <span class="tech-tag">Texturing</span>
-          </div>
-        </div>
-      </div>
 
-
-      <!-- Project 1 -->
-      <div class="project-item">
-        <div class="video-container">
-          <video class="project-video" poster="1.png">
-            <source src="1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="play-overlay" data-video="1.mp4">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <div class="project-info">
-          <h3>3D Product Visualization – Advertising Concept</h3>
-          <p> A realistic product design and lighting showcase created using Blender. Focuses on composition, materials, and cinematic rendering for advertising purposes. Created by: Ziad Medhat</p>
-          <div class="project-tech">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">3D Modeling</span>
-            <span class="tech-tag">Texturing</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 2 -->
-      <div class="project-item">
-        <div class="video-container">
-          <video class="project-video" poster="2.png">
-            <source src="2.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="play-overlay" data-video="2.mp4">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <div class="project-info">
-          <h3>First Stage of Advertising Animation – Lighting & Camera Movement</h3>
-          <p>A dynamic 3D scene showcasing Ad Animation in its first stage: combining lighting setup and camera movement for impactful storytelling. Created by: Ziad Medhat</p>
-          <div class="project-tech">
-            <span class="tech-tag">After Effects</span>
-            <span class="tech-tag">Animation</span>
-            <span class="tech-tag">Motion Graphics</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 3 -->
-      <div class="project-item">
-        <div class="video-container">
-          <video class="project-video" poster="3.png">
-            <source src="3.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="play-overlay" data-video="3.mp4">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <div class="project-info">
-          <h3>Essential Jewellery Ring Animation – Zid Perfume – Zohour Yeltaqy Bilsassa Mina Al Fakhamah</h3>
-          <p>A creative 3D ring animation showcasing jewellery design for the "Zid Perfume" brand. Focuses on elegant movement, lighting, and product styling for a premium feel. Created by: Ziad Medhat</p>
-          <div class="project-tech">
-            <span class="tech-tag">Product Design</span>
-            <span class="tech-tag">3D Modeling</span>
-            <span class="tech-tag">Material Design</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 4 -->
-      <div class="project-item">
-        <div class="video-container">
-          <video class="project-video" poster="4.png">
-            <source src="4.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="play-overlay" data-video="4.mp4">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <div class="project-info">
-          <h3>Quick Branding Animation Reel</h3>
-          <p>An engaging animation showcasing branding concepts and creative motion for digital platforms. Created by: Ziad Medhat</p>
-          <div class="project-tech">
-            <span class="tech-tag">Concept Art</span>
-            <span class="tech-tag">Experimental</span>
-            <span class="tech-tag">Innovation</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 5 -->
-      <div class="project-item">
-        <div class="video-container">
-          <video class="project-video" poster="5.png">
-            <source src="5.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="play-overlay" data-video="5.mp4">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <div class="project-info">
-          <h3>Branding Animation – Modern Product Showcase</h3>
-         <p>A stylish 3D branding animation designed to highlight a modern product concept with smooth transitions, realistic lighting, and cinematic motion.
-Created by: Ziad Medhat</p>
-          <div class="project-tech">
-            <span class="tech-tag">Advanced 3D</span>
-            <span class="tech-tag">Lighting</span>
-            <span class="tech-tag">Rendering</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 6 -->
-      <div class="project-item">
-        <div class="video-container">
-          <video class="project-video" poster="6.png">
-            <source src="6.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="play-overlay" data-video="6.mp4">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <div class="project-info">
-          <h3>3D Course Promo – Facebook Lead Generation Experience</h3>
-          <p>A dynamic animation showcasing power of 3D design in Facebook lead campaigns. Created by: Ziad Medhat</p>
-          <div class="project-tech">
-            <span class="tech-tag">Editing</span>
-            <span class="tech-tag">Design</span>
-            <span class="tech-tag">Precision</span>
+        <div class="contact-sidebar">
+          <h3>Follow Me</h3>
+          <div class="social-grid">
+            <div class="social-row">
+              <a href="mailto:zmedhat847@gmail.com" class="social-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span>Email</span>
+              </a>
+              <a href="https://www.facebook.com/ALZOZmodeling" target="_blank" class="social-item">
+                <i class="fa-brands fa-facebook-f"></i>
+                <span>Facebook</span>
+              </a>
+            </div>
+            
+            <div class="social-row">
+              <a href="https://www.instagram.com/ziadmedhat14?igsh=MWk3NXYzMzA3bnBqcA==" target="_blank" class="social-item" id="insta">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Instagram</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Modal للفيديو -->
-  <div class="video-modal" id="videoModal">
-    <div class="modal-content">
-      <div class="modal-video-wrapper">
-        <video class="modal-video" controls id="modalVideo" controlsList="nodownload">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-      <button class="close-modal" id="closeModal">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-  </div>
-
-  <section class="s4" id="contact">
-  <div class="contact-container">
-    <h1>Let's Connect</h1>
-    <div class="contact-layout">
-      <div class="contact-main">
-        <div class="contact-method">
-          <i class="fa-solid fa-phone"></i>
-          <div>
-            <h3>Phone</h3>
-            <p>+20 1272868378</p>
-          </div>
-        </div>
-
-        <div class="contact-method">
-          <i class="fa-solid fa-location-dot"></i>
-          <div>
-            <h3>My Location</h3>
-            <p>Sharkia, Egypt</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="contact-sidebar">
-        <h3>Follow Me</h3>
-        <div class="social-grid">
-          <!-- الصف الأول: الفيسبوك والجيميل -->
-          <div class="social-row">
-            <a href="mailto:zmedhat847@gmail.com" class="social-item">
-              <i class="fa-solid fa-envelope"></i>
-              <span>Email</span>
-            </a>
-            <a href="https://www.facebook.com/ALZOZmodeling" target="_blank" class="social-item">
-              <i class="fa-brands fa-facebook-f"></i>
-              <span>Facebook</span>
-            </a>
-          </div>
-          
-          <!-- الصف الثاني: الإنستجرام في المنتصف -->
-          <div class="social-row">
-            <a href="https://www.instagram.com/ziadmedhat14?igsh=MWk3NXYzMzA3bnBqcA==" target="_blank" class="social-item" id="insta">
-              <i class="fa-brands fa-instagram"></i>
-              <span>Instagram</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- زر تبديل Dark/Light Mode -->
+  <!-- Theme Toggle -->
   <button class="theme-toggle" id="themeToggle">
     <i class="fas fa-moon"></i>
   </button>
 
-  <!-- زر العودة للأعلى -->
+  <!-- Back to top -->
   <button class="back-to-top" id="backToTop">
     <i class="fas fa-arrow-up"></i>
   </button>
@@ -1706,8 +1782,460 @@ Created by: Ziad Medhat</p>
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
   <script>
+    // --- Intro Video Logic (With Audio Handling) ---
+    const introOverlay = document.getElementById('introOverlay');
+    const skipIntroBtn = document.getElementById('skipIntroBtn');
+    const introVideo = document.getElementById('introVideo');
+    const enableAudioOverlay = document.getElementById('enableAudioOverlay');
+    const enableAudioBtn = document.getElementById('enableAudioBtn');
+    const loadingScreen = document.getElementById('loadingScreen');
+
+    // محاولة تشغيل الفيديو بالصوت
+    const playPromise = introVideo.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(_ => {
+        // التشغيل ناجح بالصوت
+        console.log("Audio Enabled and Playing");
+      })
+      .catch(error => {
+        // التشغيل فشل (المتصفح منع الصوت التلقائي)
+        console.log("Autoplay prevented, showing enable sound button.");
+        // نقوم بإيقاف الفيديو مؤقتاً ونظهر زر التفعيل
+        introVideo.pause();
+        enableAudioOverlay.style.display = 'flex';
+      });
+    }
+
+    // عند الضغط على زر تفعيل الصوت
+    enableAudioBtn.addEventListener('click', () => {
+      introVideo.muted = false;
+      introVideo.play().then(() => {
+        enableAudioOverlay.style.display = 'none';
+      }).catch(err => {
+        console.error("Error playing video after click:", err);
+      });
+    });
+
+    function startSiteExperience() {
+      // إيقاف الفيديو والصوت تماماً
+      introVideo.pause();
+      introVideo.currentTime = 0;
+      introVideo.muted = true; // تأكيد الإسكات
+      
+      // إخفاء الفيديو التعريفي
+      introOverlay.classList.add('hidden');
+      
+      // إظهار شاشة التحميل
+      loadingScreen.style.display = 'flex';
+
+      // بدء أنيميشن التحميل القديم
+      const loadingImage = document.getElementById('loadingImage');
+      const navLogo = document.getElementById('navLogo');
+      
+      const moveTimeline = gsap.timeline();
+      moveTimeline
+        .to(loadingImage, {
+          scale: 1.3,
+          duration: 0.8,
+          ease: "power2.out"
+        })
+        .to(loadingImage, {
+          scale: 0.1,
+          opacity: 0,
+          duration: 1.2,
+          ease: "power2.inOut",
+          onComplete: function () {
+            loadingScreen.style.display = 'none';
+            navLogo.style.opacity = '1';
+            // تهيئة باقي عناصر الموقع
+            startHeroAnimation();
+            initCardParallax();
+            initNavbarScroll();
+            initNavbarClick();
+            initThemeToggle();
+            initBackToTop();
+          }
+        });
+    }
+
+    // عند ضغط زر التخطي
+    skipIntroBtn.addEventListener('click', startSiteExperience);
+
+
+
+    // بيانات المشاريع - مسارات الفيديوهات الأصلية
+    
+
+const projects = [
+  {
+    id: 0,
+    video: "9.mp4",
+    poster: "9.png",
+    title: "Ice Cream – Product Visual Showcase", // عدل العنوان هنا
+    description: "A product showcase video for ice cream, focusing on visual appeal, texture, and color. The video presents the product in a clean, modern style suitable for digital advertising and social media use.", // عدل الوصف هنا
+    tags: ["Blender", "3D Modeling", "New"],
+    orientation: "landscape"
+  },
+  {
+    id: 1,
+    video: "10.mp4",
+    poster: "10.png",
+    title: "Wireless Earbuds – Clean Product Showcase ", // عدل العنوان هنا
+    description: "A clean product showcase video highlighting wireless earbuds and their charging case.The video focuses on minimal composition, lighting, and smooth presentation to deliver a modern, professional product visual suitable for digital advertising.", // عدل الوصف هنا
+    tags: ["Blender", "Animation", "New"],
+    orientation: "landscape"
+  },
+  {
+    id: 2,
+    video: "7.mp4",
+    poster: "7.png",
+    title: "3D Product Visualization – Organic Skincare Concept",
+    description: "A clean and modern 3D showcase featuring rotating organic skincare tubes, presented on a smooth green backdrop. The animation highlights product form, minimalist packaging, lighting balance, and soft camera motion to create a fresh, nature-inspired advertising look. Created by: Ziad Medhat",
+    tags: ["Blender", "3D Modeling", "Texturing", "Lighting", "Animation"],
+    orientation: "landscape"
+  },
+  {
+    id: 3,
+    video: "8.mov",
+    poster: "8.png",
+    title: "3D Product Visualization – Vitamin Supplement Concept",
+    description: "A dynamic 3D promotional shot featuring floating red-and-white capsules moving in smooth, controlled motion over a dark botanical backdrop. The animation reveals a rotating green vitamin bottle, highlighting its label design, product details, and glossy material finish. Balanced lighting, soft shadows, and steady camera movement create a clean, modern, and clinically-inspired advertising aesthetic. Created by: Ziad Medhat",
+    tags: ["Blender", "3D Modeling", "Texturing", "Product Design"],
+    orientation: "landscape"
+  },
+  {
+    id: 4,
+    video: "1.mp4",
+    poster: "1.png",
+    title: "3D Product Visualization – Advertising Concept",
+    description: "A realistic product design and lighting showcase created using Blender. Focuses on composition, materials, and cinematic rendering for advertising purposes. Created by: Ziad Medhat",
+    tags: ["Blender", "3D Modeling", "Texturing", "Rendering"],
+    orientation: "landscape"
+  },
+  {
+    id: 5,
+    video: "2.mp4",
+    poster: "2.png",
+    title: "First Stage of Advertising Animation – Lighting & Camera Movement",
+    description: "A dynamic 3D scene showcasing Ad Animation in its first stage: combining lighting setup and camera movement for impactful storytelling. Created by: Ziad Medhat",
+    tags: ["After Effects", "Animation", "Motion Graphics", "Lighting"],
+    orientation: "landscape"
+  },
+  {
+    id: 6,
+    video: "3.mp4",
+    poster: "3.png",
+    title: "Essential Jewellery Ring Animation – Zid Perfume",
+    description: "A creative 3D ring animation showcasing jewellery design for the 'Zid Perfume' brand. Focuses on elegant movement, lighting, and product styling for a premium feel. Created by: Ziad Medhat",
+    tags: ["Product Design", "3D Modeling", "Material Design", "Animation"],
+    orientation: "landscape"
+  },
+  {
+    id: 7,
+    video: "4.mp4",
+    poster: "4.png",
+    title: "Quick Branding Animation Reel",
+    description: "An engaging animation showcasing branding concepts and creative motion for digital platforms. Created by: Ziad Medhat",
+    tags: ["Concept Art", "Experimental", "Innovation", "Branding"],
+    orientation: "landscape"
+  },
+  {
+    id: 8,
+    video: "5.mp4",
+    poster: "5.png",
+    title: "Branding Animation – Modern Product Showcase",
+    description: "A stylish 3D branding animation designed to highlight a modern product concept with smooth transitions, realistic lighting, and cinematic motion. Created by: Ziad Medhat",
+    tags: ["Advanced 3D", "Lighting", "Rendering", "Cinematic"],
+    orientation: "landscape"
+  },
+  {
+    id: 9,
+    video: "6.mp4",
+    poster: "6.png",
+    title: "3D Course Promo – Facebook Lead Generation Experience",
+    description: "A dynamic animation showcasing power of 3D design in Facebook lead campaigns. Created by: Ziad Medhat",
+    tags: ["Editing", "Design", "Precision", "Social Media"],
+    orientation: "landscape"
+  }
+
+];
+
+    // متغيرات الكاروسيل
+    let selectedIndex = 0;
+    let isExpanded = false;
+    let currentVideo = null;
+    let isPlaying = true;
+
+    // تهيئة الكاروسيل
+    function initManualCarousel() {
+      const container = document.getElementById('carouselContainer');
+      container.innerHTML = '';
+
+      projects.forEach((project, i) => {
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        card.id = `video-card-${i}`;
+        
+        const video = document.createElement('video');
+        video.src = project.video;
+        video.poster = project.poster;
+        video.loop = true;
+        video.playsInline = true;
+        video.controls = false;
+        video.muted = true;
+        video.preload = "metadata";
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        
+        const label = document.createElement('div');
+        label.className = 'video-label';
+        label.innerText = `Project ${i+1}`;
+
+        // زر Read Me
+        const readMeBtn = document.createElement('div');
+        readMeBtn.className = 'read-me-btn';
+        readMeBtn.innerText = 'Read Me';
+        readMeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showProjectInfo(i);
+        });
+
+        card.appendChild(video);
+        card.appendChild(label);
+        card.appendChild(readMeBtn);
+
+        // === منطق النقر المعدل (Select vs Expand) ===
+        card.addEventListener('click', () => {
+          if (isExpanded) return; // لا نفعل شيئاً إذا كان الفيديو مفتوحاً بالفعل
+
+          if (i === selectedIndex) {
+            // إذا ضغطنا على الكارت المحدد بالفعل -> قم بتوسيعه
+            expandVideo(i);
+          } else {
+            // إذا ضغطنا على كارت مختلف -> قم بتحديث التحديد (Selection)
+            updateSelection(i);
+          }
+        });
+
+        container.appendChild(card);
+      });
+
+      updateCarouselPositions();
+      playSelectedVideo(); // تشغيل الفيديو الأول عند البدء
+    }
+
+    // دالة تحديث التحديد (Selection)
+    function updateSelection(newIndex) {
+      // إيقاف الفيديو الحالي
+      const prevVideo = document.querySelector(`#video-card-${selectedIndex} video`);
+      if (prevVideo) {
+        prevVideo.pause();
+        prevVideo.currentTime = 0;
+      }
+
+      selectedIndex = newIndex;
+
+      // تحديث المواقع
+      updateCarouselPositions();
+      
+      // تشغيل الفيديو الجديد المحدد
+      playSelectedVideo();
+
+      // إخفاء صندوق المعلومات إذا كان ظاهراً
+      document.getElementById('projectInfo').classList.remove('active');
+    }
+
+    // دالة تشغيل الفيديو المحدد فقط
+    function playSelectedVideo() {
+      const videos = document.querySelectorAll('.video-card video');
+      videos.forEach(v => {
+        v.pause();
+        v.currentTime = 0;
+      });
+
+      const activeVideo = document.querySelector(`#video-card-${selectedIndex} video`);
+      if (activeVideo) {
+        // نستخدم play() مع catch للتعامل مع سياسات التشغيل التلقائي للمتصفح
+        const playPromise = activeVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log("Auto-play was prevented:", error);
+          });
+        }
+      }
+    }
+
+    // دالة تحديث المواقع (المنطق الجديد)
+    function updateCarouselPositions() {
+      const cards = document.querySelectorAll('.video-card');
+      
+      cards.forEach((card, i) => {
+        const distance = i - selectedIndex;
+        const absDistance = Math.abs(distance);
+
+        card.classList.remove('active');
+        
+        let transform = '';
+        let zIndex = 10 - absDistance; 
+        
+        if (i === selectedIndex) {
+          card.classList.add('active');
+          transform = `translateX(0) scale(1)`;
+          zIndex = 10;
+        } else {
+          const direction = Math.sign(distance); 
+          const xOffset = direction * (400 + (absDistance * 50)); 
+          
+          transform = `translateX(${xOffset}px) scale(${1 - (absDistance * 0.15)})`;
+          zIndex = 10 - absDistance;
+        }
+
+        card.style.transform = transform;
+        card.style.zIndex = zIndex;
+      });
+    }
+
+    // دالة تحريك الكاروسيل (للأزرار)
+    function moveCarousel(direction) {
+      const count = projects.length;
+      
+      // حساب newIndex
+      let newIndex = selectedIndex + direction;
+      if (newIndex < 0) newIndex = count - 1;
+      if (newIndex >= count) newIndex = 0;
+      
+      // استدعاء دالة تحديث التحديد بدلاً من التحديث المباشر
+      updateSelection(newIndex);
+    }
+
+    function showProjectInfo(index) {
+      // تأكد من تحديث الفهرس إذا كان طلب العرض للفيديو المحدد
+      if (index !== selectedIndex) {
+        updateSelection(index);
+      }
+
+      const infoBox = document.getElementById('projectInfo');
+      const project = projects[index];
+      
+      document.getElementById('projectTitle').textContent = project.title;
+      document.getElementById('projectDescription').textContent = project.description;
+      
+      const techTagsContainer = document.getElementById('projectTechTags');
+      techTagsContainer.innerHTML = '';
+      project.tags.forEach(tag => {
+        const tagElement = document.createElement('span');
+        tagElement.className = 'project-tech-tag';
+        tagElement.textContent = tag;
+        techTagsContainer.appendChild(tagElement);
+      });
+
+      infoBox.classList.add('active');
+    }
+
+    // --- Expanded Video Functions ---
+    function expandVideo(index) {
+      if (isExpanded) return;
+      isExpanded = true;
+      const project = projects[index];
+      const container = document.getElementById('expandedVideoContainer');
+      const video = document.getElementById('mainExpandedVideo');
+      const overlay = document.getElementById('videoOverlay');
+      const closeBtn = document.getElementById('videoCloseBtn');
+      const controls = document.getElementById('videoControls');
+      
+      video.src = project.video;
+      video.poster = project.poster;
+      video.load();
+
+      container.classList.add('active');
+      overlay.classList.add('active');
+      closeBtn.classList.add('active');
+      controls.classList.add('active');
+
+      currentVideo = video;
+
+      // إيقاف فيديو الكاروسيل الصغير عند الفتح
+      const carouselVideo = document.querySelector(`#video-card-${selectedIndex} video`);
+      if (carouselVideo) carouselVideo.pause();
+
+      video.onloadeddata = function() {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(_ => {
+            isPlaying = true;
+            document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-pause"></i>';
+          }).catch(error => {
+            isPlaying = false;
+            document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+          });
+        }
+      };
+    }
+
+    function closeVideo() {
+      if (!isExpanded) return;
+      isExpanded = false;
+
+      const container = document.getElementById('expandedVideoContainer');
+      const video = document.getElementById('mainExpandedVideo');
+      const overlay = document.getElementById('videoOverlay');
+      const closeBtn = document.getElementById('videoCloseBtn');
+      const controls = document.getElementById('videoControls');
+
+      video.pause();
+      video.currentTime = 0;
+      video.src = "";
+
+      container.classList.remove('active');
+      overlay.classList.remove('active');
+      closeBtn.classList.remove('active');
+      controls.classList.remove('active');
+      
+      currentVideo = null;
+
+      // إعادة تشغيل فيديو الكاروسيل عند الإغلاق
+      playSelectedVideo();
+    }
+
+    function togglePlayPause() {
+      if (!currentVideo) return;
+      if (isPlaying) {
+        currentVideo.pause();
+        document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+      } else {
+        currentVideo.play();
+        document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-pause"></i>';
+      }
+      isPlaying = !isPlaying;
+    }
+
+    function toggleMute() {
+      if (!currentVideo) return;
+      currentVideo.muted = !currentVideo.muted;
+      if (currentVideo.muted) {
+        document.getElementById('muteBtn').innerHTML = '<i class="fas fa-volume-mute"></i>';
+      } else {
+        document.getElementById('muteBtn').innerHTML = '<i class="fas fa-volume-up"></i>';
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!currentVideo) return;
+      if (!document.fullscreenElement) {
+        currentVideo.requestFullscreen().catch(err => {
+          alert(`Error attempting to enable fullscreen: ${err.message} (${err.name})`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    // --- Global Init ---
     document.addEventListener('DOMContentLoaded', function () {
-      // التحكم في شاشة التحميل
+      initManualCarousel();
+
+      // Loading Screen Logic
       const loadingScreen = document.getElementById('loadingScreen');
       const loadingImage = document.getElementById('loadingImage');
       const navLogo = document.getElementById('navLogo');
@@ -1717,24 +2245,20 @@ Created by: Ziad Medhat</p>
       const themeToggle = document.getElementById('themeToggle');
       const backToTop = document.getElementById('backToTop');
 
-      // إضافة وظيفة القائمة المتنقلة
       menuToggle.addEventListener('click', function () {
         navLinks.classList.toggle('active');
       });
 
-      // إغلاق القائمة عند النقر على رابط
       document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', function () {
           navLinks.classList.remove('active');
         });
       });
 
-      // حساب موقع النافبار الدقيق
-      const navbarRect = navbar.getBoundingClientRect();
-      const logoRect = navLogo.getBoundingClientRect();
-
-      const targetX = logoRect.left + (logoRect.width / 2) - (window.innerWidth / 2);
-      const targetY = logoRect.top + (logoRect.height / 2) - (window.innerHeight / 2);
+      // Animation Logic
+      // حساب الموضع النسبي للحركة
+      const targetX = 0;
+      const targetY = 0;
 
       setTimeout(() => {
         const moveTimeline = gsap.timeline();
@@ -1746,14 +2270,9 @@ Created by: Ziad Medhat</p>
           })
           .to(loadingImage, {
             scale: 0.1,
-            x: targetX,
-            y: targetY,
-            duration: 1.8,
+            opacity: 0,
+            duration: 1.2,
             ease: "power2.inOut",
-            onUpdate: function () {
-              const progress = this.progress();
-              loadingImage.style.opacity = 1.5 - (progress * 0.8);
-            },
             onComplete: function () {
               loadingScreen.style.display = 'none';
               navLogo.style.opacity = '1';
@@ -1761,20 +2280,16 @@ Created by: Ziad Medhat</p>
               initCardParallax();
               initNavbarScroll();
               initNavbarClick();
-              initVideoModal();
               initThemeToggle();
               initBackToTop();
             }
           });
       }, 1000);
 
-      // ✅ دالة لجعل النافبار يثبت عند التمرير
       function initNavbarScroll() {
         let lastScrollY = window.scrollY;
-
         window.addEventListener('scroll', () => {
           const currentScrollY = window.scrollY;
-
           if (currentScrollY > 100) {
             navbar.style.top = '10px';
             navbar.style.boxShadow = '0 5px 15px var(--shadow-color)';
@@ -1782,31 +2297,24 @@ Created by: Ziad Medhat</p>
             navbar.style.top = '20px';
             navbar.style.boxShadow = '0 5px 15px var(--shadow-color)';
           }
-
           lastScrollY = currentScrollY;
         });
       }
 
-      // ✅ دالة لتحديد العنصر النشط في النافبار عند النقر
       function initNavbarClick() {
-        const navLinks = document.querySelectorAll('.nav-links a');
+        const navLinksItems = document.querySelectorAll('.nav-links a');
         const navItems = document.querySelectorAll('.nav-links li');
 
-        navLinks.forEach(link => {
+        navLinksItems.forEach(link => {
           link.addEventListener('click', function (e) {
             e.preventDefault();
-
-            // إزالة الكلاس النشط من كل العناصر
             navItems.forEach(item => item.classList.remove('active'));
-
-            // إضافة الكلاس النشط للعنصر المختار
             this.parentElement.classList.add('active');
 
-            // الانتقال إلى القسم المطلوب
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
             if (targetSection) {
-              const offsetTop = targetSection.offsetTop - 80; // تعويض للنافبار الفيكسد
+              const offsetTop = targetSection.offsetTop - 80;
               window.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'
@@ -1815,11 +2323,9 @@ Created by: Ziad Medhat</p>
           });
         });
 
-        // تحديث العنصر النشط عند التمرير
         window.addEventListener('scroll', () => {
           const sections = document.querySelectorAll('section');
           let currentSection = '';
-
           sections.forEach(section => {
             const sectionTop = section.offsetTop - 100;
             const sectionHeight = section.clientHeight;
@@ -1827,7 +2333,6 @@ Created by: Ziad Medhat</p>
               currentSection = section.getAttribute('id');
             }
           });
-
           navItems.forEach(item => {
             item.classList.remove('active');
             const link = item.querySelector('a');
@@ -1851,96 +2356,33 @@ Created by: Ziad Medhat</p>
           .to(heroImage, { scale: 1, rotationY: 0, duration: 0.3, ease: "power2.out" });
       }
 
-      // تأثير Parallax للـ Card عند Hover فقط
       function initCardParallax() {
         const card = document.getElementById('interactiveCard');
-
         card.addEventListener('mousemove', (e) => {
           const cardRect = card.getBoundingClientRect();
           const mouseX = e.clientX - cardRect.left;
           const mouseY = e.clientY - cardRect.top;
-
           const cardCenterX = cardRect.width / 2;
           const cardCenterY = cardRect.height / 2;
-
           const rotateX = (mouseY - cardCenterY) / 20;
           const rotateY = (cardCenterX - mouseX) / 20;
-
           card.style.setProperty('--rotateX', `${rotateX}deg`);
           card.style.setProperty('--rotateY', `${rotateY}deg`);
         });
-
         card.addEventListener('mouseleave', () => {
           card.style.setProperty('--rotateX', '0deg');
           card.style.setProperty('--rotateY', '0deg');
         });
       }
 
-      // دالة للتحكم في Modal الفيديو
-      function initVideoModal() {
-        const videoModal = document.getElementById('videoModal');
-        const modalVideo = document.getElementById('modalVideo');
-        const closeModal = document.getElementById('closeModal');
-        const playOverlays = document.querySelectorAll('.play-overlay');
-
-        playOverlays.forEach(overlay => {
-          overlay.addEventListener('click', function() {
-            const videoSrc = this.getAttribute('data-video');
-            modalVideo.src = videoSrc;
-            videoModal.classList.add('active');
-            
-            // تأكد من ظهور عناصر التحكم
-            modalVideo.controls = true;
-            modalVideo.load();
-            
-            // حاول تشغيل الفيديو
-            modalVideo.play().then(() => {
-              console.log('Video started playing');
-            }).catch(error => {
-              console.log('Auto-play prevented, showing controls:', error);
-            });
-          });
-        });
-
-        closeModal.addEventListener('click', function() {
-          videoModal.classList.remove('active');
-          modalVideo.pause();
-          modalVideo.currentTime = 0;
-          modalVideo.src = '';
-        });
-
-        videoModal.addEventListener('click', function(e) {
-          if (e.target === videoModal) {
-            videoModal.classList.remove('active');
-            modalVideo.pause();
-            modalVideo.currentTime = 0;
-            modalVideo.src = '';
-          }
-        });
-
-        // إغلاق Modal بالزر Escape
-        document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape' && videoModal.classList.contains('active')) {
-            videoModal.classList.remove('active');
-            modalVideo.pause();
-            modalVideo.currentTime = 0;
-            modalVideo.src = '';
-          }
-        });
-      }
-
-      // دالة لتبديل وضع الظلام والوضع الفاتح
       function initThemeToggle() {
-        // التحقق من التفضيلات المحفوظة
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'light') {
           document.body.classList.add('light-mode');
           themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
         }
-
         themeToggle.addEventListener('click', function() {
           document.body.classList.toggle('light-mode');
-          
           if (document.body.classList.contains('light-mode')) {
             localStorage.setItem('theme', 'light');
             themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
@@ -1951,7 +2393,6 @@ Created by: Ziad Medhat</p>
         });
       }
 
-      // دالة للتحكم في زر العودة للأعلى
       function initBackToTop() {
         window.addEventListener('scroll', function() {
           if (window.pageYOffset > 300) {
@@ -1960,7 +2401,6 @@ Created by: Ziad Medhat</p>
             backToTop.classList.remove('show');
           }
         });
-
         backToTop.addEventListener('click', function() {
           window.scrollTo({
             top: 0,
@@ -1969,6 +2409,7 @@ Created by: Ziad Medhat</p>
         });
       }
 
+      // GSAP Animations
       gsap.fromTo('.s1 .the-img img',
         { opacity: 0, x: 100 },
         {
@@ -1994,32 +2435,31 @@ Created by: Ziad Medhat</p>
           }
         }
       );
-
-      // إضافة انيميشن للمشاريع
-      gsap.fromTo('.project-item',
+      
+      gsap.fromTo('.video-carousel-section',
         { opacity: 0, y: 50 },
         {
-          opacity: 1, y: 0, duration: 0.8, ease: "power2.out",
+          opacity: 1, y: 0, duration: 1, ease: "power2.out",
           scrollTrigger: {
-            trigger: '.projects-3-section',
+            trigger: '.video-carousel-section',
             start: 'top 80%',
             end: 'bottom 20%',
             toggleActions: "play none none reverse"
-          },
-          stagger: 0.2
+          }
         }
       );
 
       ScrollTrigger.refresh();
     });
 
-    window.onload = function () {
-      window.scrollTo(0, 0);
-    };
-
-    if (history.scrollRestoration) {
-      history.scrollRestoration = 'manual';
-    }
+    // Make functions global
+    window.moveCarousel = moveCarousel;
+    window.closeVideo = closeVideo;
+    window.expandVideo = expandVideo;
+    window.togglePlayPause = togglePlayPause;
+    window.toggleMute = toggleMute;
+    window.toggleFullscreen = toggleFullscreen;
+    window.showProjectInfo = showProjectInfo;
   </script>
 </body>
 </html>
